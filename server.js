@@ -6,6 +6,7 @@ var expressSession = require('express-session');
 var methodOverride = require('method-override');
 var socketIo = require('socket.io');
 var mongoStore = require('connect-mongo')(expressSession);
+var env = require('node-env-file');
 
 var app_config = require('./config');
 var app_routes = require('./app/routes');
@@ -14,6 +15,8 @@ var app_sockets = require('./app/sockets');
 var app = express();
 
 var application_root = __dirname;
+
+env(__dirname + '/.env');
 
 app.use(express.static(application_root + "/public"));
 app.use(cookieParser());

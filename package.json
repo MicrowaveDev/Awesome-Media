@@ -4,7 +4,7 @@
   "description": "A MEAN app that can play with your media.",
   "main": "server.js",
   "scripts": {
-    "start": "npm install; chmod +x .env; source .env; node server.js;",
+    "start": "npm install; node server.js;",
     "build": "webpack --config webpack.config.js --watch -d"
   },
   "repository": {
@@ -38,6 +38,7 @@
     "lodash": "^4.16.1",
     "mongoose": "^4.6.1",
     "multer": "^1.2.0",
+    "node-env-file": "^0.1.8",
     "node-ffprobe": "^1.2.2",
     "socket.io": "^1.4.8",
     "vkontakte": "^0.3.0"
