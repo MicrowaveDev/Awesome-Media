@@ -43,7 +43,10 @@ export class SidenavComponent {
 
         //TODO: fix ugly code
         var self = this;
-        this.uploader.onCompleteAll = ()=>{
+        //this.uploader.onCompleteAll = ()=>{
+        //    self.onUploadMedia.next();
+        //};
+        this.uploader.onCompleteItem = ()=>{
             self.onUploadMedia.next();
         };
     }
