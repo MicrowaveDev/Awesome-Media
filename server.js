@@ -17,6 +17,7 @@ var app = express();
 var application_root = __dirname;
 
 env(__dirname + '/.env');
+console.log('vk app id', process.env.VK_APP_ID);
 
 app.use(express.static(application_root + "/public"));
 app.use(cookieParser());
