@@ -8,16 +8,14 @@ var socketIo = require('socket.io');
 var mongoStore = require('connect-mongo')(expressSession);
 var env = require('node-env-file');
 
+var application_root = __dirname;
+env(application_root + '/.env');
+
 var app_config = require('./config');
 var app_routes = require('./app/routes');
 var app_sockets = require('./app/sockets');
 
 var app = express();
-
-var application_root = __dirname;
-
-env(__dirname + '/.env');
-console.log('vk app id', process.env.VK_APP_ID);
 
 app.use(express.static(application_root + "/public"));
 app.use(cookieParser());
