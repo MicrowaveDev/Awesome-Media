@@ -1,0 +1,25 @@
+<vg-player (onPlayerReady)="onPlayerReady($event)" style="height: 50px;">
+	<vg-controls>
+		<vg-play-pause></vg-play-pause>
+		<vg-playback-button></vg-playback-button>
+
+		<vg-time-display property="current" format="mm:ss"></vg-time-display>
+
+		<vg-scrub-bar>
+			<vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+			<vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+		</vg-scrub-bar>
+
+		<vg-time-display property="left" format="mm:ss"></vg-time-display>
+		<vg-time-display property="total" format="mm:ss"></vg-time-display>
+
+		<vg-mute></vg-mute>
+
+		<vg-fullscreen></vg-fullscreen>
+	</vg-controls>
+
+	<audio vg-media id="myAudio" preload="auto">
+		<source [src]="audio.path || audio.remote_url" [type]="audio.type" *ngIf="audio">
+	</audio>
+	<!--<vg-media (onComplete)="onComplete($event)"></vg-media>-->
+</vg-player>

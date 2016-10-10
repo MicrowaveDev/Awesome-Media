@@ -1,0 +1,8 @@
+{
+  "name": "MEAN Simple Media App",
+  "description": "A MEAN app that can play with your media.",
+  "repository": "https://github.com/Jonybang/Awesome-Media",
+  "logo": "",
+  "keywords": ["node", "express", "angular 2", "MEAN", "mongodb", "REST", "API"],
+  "addons": ["mongolab"]
+}
