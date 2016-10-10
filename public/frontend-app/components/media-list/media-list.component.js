@@ -66,7 +66,7 @@ export class MediaListComponent {
         this._media_service.query().then((result) => {
             if(result.length) {
                 this.listLabel = 'Local audio list:';
-                initMedia(result);
+                initMedia.bind(this)(result);
             }
             else {
                 this.message = 'No media :(';

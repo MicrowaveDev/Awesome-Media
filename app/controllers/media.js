@@ -20,10 +20,13 @@ module.exports = {
         User.findOne({_id: req.session.user_id}, function(err, user){
             if(user)
                 Media.find({ _id: { "$in" : user.medias ? user.medias.map((user_media) => user_media.media_id) : [] } }, function(err, docs){
-                    var userSortedMediaIds = _(user.medias).orderBy(['index'], ['asc', 'desc']).map((user_media) => user_media.media_id).value();
+                    var userSortedMediaIds = _(user.medias).orderBy(['index'], ['asc']).map((user_media) => user_media.media_id).value();
 
                     console.log(userSortedMediaIds);
-                    var sortedMedia = _.orderBy(docs, (media) => userSortedMediaIds.indexOf(media._id), ['asc', 'desc']);
+                    var sortedMedia = _.orderBy(docs, (media) => {
+                        console.log(media._id, _.indexOf(userSortedMediaIds, media._id));
+                        return userSortedMediaIds.indexOf(media._id);
+                    }, ['asc']);
 
                     console.log(sortedMedia);
                     apiHelper.APIResponse(res)(err, sortedMedia);

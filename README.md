@@ -26,7 +26,7 @@ Install ffmpeg: `sudo apt-get install ffmpeg`
 5. Start Node: `VK_APP_ID=your-vk-app-id VK_APP_SECRET=your-vk-app-secret node server.js`  
 Or install forever, and start Forever: https://github.com/foreverjs/forever  
 `VK_APP_ID=your-vk-app-id VK_APP_SECRET=your-vk-app-secret forever start server.js`
-6. Open your-server-domen-or-ip:3000
+6. Open your-server-domen-or-ip:3007
 
 7. Optionaly. Bind application to domain/subdomain:  
 http://stackoverflow.com/questions/5009324/node-js-nginx-what-now

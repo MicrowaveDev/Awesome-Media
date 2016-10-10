@@ -37,7 +37,7 @@ var session = expressSession({
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   // Initialize the app.
-  var server = app.listen(process.env.PORT || 3000, function () {
+  var server = app.listen(process.env.PORT || 3007, function () {
     var port = server.address().port;
     console.log("App now running on port", port);
   });
