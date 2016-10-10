@@ -3,9 +3,11 @@
 Simple web player of server based media with possibility of sync with VKontakte.  
 You can run this app on server, upload music and then listen from any place.
 
+![Web Inerface](public/img/agkBdaa.png)
 ## Project stage
 
-On current stage project can load all available your vk audio to server ./public/media/user-id/ directory for play audio from your server.
+On current stage project you can upload music to app or load all available vkontakte audio to server ./public/media/user-id/ directory for play audio from your server.
+Also you can share access to your app to vkontakte users by ids in config.js
 
 ## How to try
 
