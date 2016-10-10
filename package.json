@@ -4,7 +4,7 @@
   "description": "A MEAN app that can play with your media.",
   "main": "server.js",
   "scripts": {
-    "start": "npm install; webpack; node server.js;",
+    "start": "npm install; chmod +x .env; source .env; node server.js;",
     "build": "webpack --config webpack.config.js --watch -d"
   },
   "repository": {
