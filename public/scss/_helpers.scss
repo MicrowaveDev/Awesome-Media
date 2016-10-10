@@ -1,0 +1,11 @@
+.padding {
+  padding: 8px;
+}
+.bold {
+  &, & > *{
+    font-weight: bold !important;
+  }
+}
+.margin-bottom {
+  margin-bottom: 15px !important;
+}

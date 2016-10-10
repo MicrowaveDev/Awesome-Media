@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Awesome Media</title>
+    <base href="/">
+
+    <link rel="stylesheet" type="text/css" href="build/styles.css">
+  </head>
+
+  <body>
+    <fronted-app class="mdl-layout" style="height: 100vh;">Loading...</fronted-app>
+
+    <div id="vk_api_transport"></div>
+    <script type="text/javascript">
+      window.vkAsyncInit = function() {
+        VK.init({
+          apiId: 5638380//5641760//5638380
+        });
+      };
+
+      setTimeout(function() {
+        var el = document.createElement("script");
+        el.type = "text/javascript";
+        el.src = "//vk.com/js/api/openapi.js";
+        el.async = true;
+        document.getElementById("vk_api_transport").appendChild(el);
+      }, 0);
+    </script>
+
+    <script src="build/polyfills.min.js"></script>
+    <script src="build/app.min.js"></script>
+  </body>
+</html>
