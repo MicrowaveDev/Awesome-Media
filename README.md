@@ -1,6 +1,6 @@
 # Awesome Media App
 
-Simple web player of server based media with possibility of sync with VKontakte.  
+Simple web audio player of server based media with possibility of sync with VKontakte.  
 You can run this app on server, upload music and then listen from any place.
 
 ![Web Inerface](public/img/agkBdaa.png)
