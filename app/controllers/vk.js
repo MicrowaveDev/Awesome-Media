@@ -165,15 +165,15 @@ module.exports = {
                 }
             };
 
-            function addMediaToUser(media){
+            function addMediaToUser(media, callback){
                 if(media && media._id)
                     media_ids_dict[media._id] = media.vk ? media.vk.date : media.date;
 
 				if(_.some(user.medias, user_media => user_media.media_id.toString() == media._id.toString()))
-					return;
+					return callback(null, media);
 
 				user.medias.push({media_id: media._id, source: 'vk', number: 0});
-                user.save();
+                user.save(callback);
             }
             //=======================================================================================
             // START PROCESS AND SET DATA TO VARIABLES
@@ -218,8 +218,7 @@ module.exports = {
                         ]}, function(err, media) {
                             if (media){
                                 result.already_exists++;
-                                addMediaToUser(media);
-                                return callback(null, media);
+								return addMediaToUser(media, callback);
                             }
 
                             media = new Media(vkAudioHelper.vkAudioToMedia(vk_audio));
@@ -251,9 +250,8 @@ module.exports = {
                                             console.log('[SAVED]', path_data.file_name);
                                             result.saved++;
                                             socket.emit('partial_success', apiHelper.socketResponse(null, result.getMessage(), result.getResponseData(doc)));
-                                            callback(err, doc);
 
-                                            addMediaToUser(media);
+                                            addMediaToUser(media, callback);
                                         });
                                     }).on('error', httpError);
 
