@@ -1,8 +1,8 @@
-var crypto = require('crypto');
-var fs = require('fs');
+const crypto = require('crypto');
+const fs = require('fs');
 
-var apiHelper = require('../helpers/api');
-var User = require("../models/user");
+const apiHelper = require('../helpers/api');
+const User = require("../models/user");
 
 module.exports = {
     list: function(req, res) {
@@ -22,10 +22,10 @@ module.exports = {
         }
 
         function createUser(){
-            var user = new User();
+            let user = new User();
             user.login = req.body.login;
 
-            var md5sum = crypto.createHash('md5');
+            const md5sum = crypto.createHash('md5');
             md5sum.update(req.body.password);
             user.password = md5sum.digest('hex');
 
@@ -37,9 +37,9 @@ module.exports = {
     },
 
     auth: function(req, res){
-        var md5sum = crypto.createHash('md5');
+        const md5sum = crypto.createHash('md5');
         md5sum.update(req.body.password);
-        var password_hash = md5sum.digest('hex');
+        let password_hash = md5sum.digest('hex');
 
         User.findOne({login: req.body.login, password: password_hash }, function(err, user){
             if(user){

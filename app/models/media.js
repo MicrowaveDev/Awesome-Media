@@ -1,7 +1,7 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
 	Types = mongoose.Schema.Types;
 
-var Media = mongoose.model('Media', {
+const Media = mongoose.model('Media', {
 	artist: String,
 	title: String,
 	duration: Number,

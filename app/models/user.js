@@ -1,7 +1,7 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
     Types = mongoose.Schema.Types;
 
-var User = mongoose.model('User', {
+const User = mongoose.model('User', {
     login: String,
     password: String,
     first_name: String,

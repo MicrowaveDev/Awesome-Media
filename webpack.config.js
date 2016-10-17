@@ -1,8 +1,8 @@
 'use strict';
-var webpack = require('webpack');
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 require('es6-promise').polyfill();
 
 //NODE_ENV=production webpack

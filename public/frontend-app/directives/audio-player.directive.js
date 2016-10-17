@@ -43,7 +43,7 @@ export class AudioPlayer implements OnInit, OnChanges {
 	}
 	onPlayerReady(){
 		console.log("onPlayerReady");
-		var self = this;
+		let self = this;
 		this._vg_api.subscriptions.ended._subscribe(CommonHelper.handleEmitter((e) => {
 			self.onEnded.next(self.audio);
 			console.log('_vg_api.subscriptions.ended');

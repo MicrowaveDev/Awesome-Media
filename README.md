@@ -1,36 +1,42 @@
 # Awesome Media App
 
-Simple web player of server based media with possibility of sync with VKontakte.  
-Disclaimer:  
-Now there is no way for auth in app without vk auth. It will be implemented in nearest next version.
+Simple web audio player of server based media with possibility of sync with VKontakte.  
+You can run this app on server, upload music and then listen from any place.
 
+![Web Inerface](public/img/agkBdaa.png)
 ## Project stage
 
-On current stage project can load all available your vk audio to server ./public/media/user-id/ directory for play audio from your server.
+On current stage project you can upload music to app or load all available vkontakte audio to server ./public/media/user-id/ directory for play audio from your server.
+Also you can share access to your app to vkontakte users by ids in config.js
 
 ## How to try
 
 1. Prepare your server environment for MEAN stack (Node 6.* required):  
 https://github.com/creationix/nvm  
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+2. Install ffmpeg: `sudo apt-get install ffmpeg`
 
-2. Clone this repo to server: `git clone https://github.com/Jonybang/Awesome-Media`  
+3. Clone this repo to server: `git clone https://github.com/Jonybang/Awesome-Media`  
 
-3. Execute npm install on cloned directory `npm install`
+4. Execute npm run start on cloned directory `cd Awesome-Media && npm run start`
 
-4. For sync with Vkontakte:  
-Create you own web-site VKontakte App: https://vk.com/editapp?act=create  
-For manual upload audio:  
-Install ffmpeg: `sudo apt-get install ffmpeg`
+5. Open your-server-domain-or-ip:3007
 
-5. Start Node: `VK_APP_ID=your-vk-app-id VK_APP_SECRET=your-vk-app-secret node server.js`  
-Or install forever, and start Forever: https://github.com/foreverjs/forever  
-`VK_APP_ID=your-vk-app-id VK_APP_SECRET=your-vk-app-secret forever start server.js`
-6. Open your-server-domen-or-ip:3007
+6. Create first user and then upload music
 
-7. Optionaly. Bind application to domain/subdomain:  
-http://stackoverflow.com/questions/5009324/node-js-nginx-what-now
+## How to bind your app to domain or subdomain on server
 
+<http://stackoverflow.com/questions/5009324/node-js-nginx-what-now>
+
+## How to use Vkontakte integration
+
+1. Create you own web-site VKontakte App: https://vk.com/editapp?act=create
+
+2. Copy .env.example to .env: `cp .env.example .env`
+
+3. Place your vk app secret to .env file.
+
+4. Edit config.js vk_api_options and permissions.vkUsersIds
 
 ## Manual load VK audio:
 
@@ -61,8 +67,7 @@ setTimeout(function(){
 }, 1000);
 ```
 
-Then manual upload audio to application (currently not implemented)
-
+Then manual upload audio to application
 
 ## TODO:
 

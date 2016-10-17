@@ -1,18 +1,18 @@
-var vkontakte = require('vkontakte');
-var _ = require('lodash');
-var async = require('async');
+const vkontakte = require('vkontakte');
+const _ = require('lodash');
+const async = require('async');
 
-var request = require("request");
-var http = require('http');
-var https = require('https');
-var fs = require('fs');
+const request = require("request");
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
-var User = require("../models/user");
-var Media = require("../models/media");
-var apiHelper = require('../helpers/api');
-var commonHelper = require('../helpers/common');
-var vkAudioHelper = require('../helpers/vk_audio');
-var filesHelper = require('../helpers/files');
+const User = require("../models/user");
+const Media = require("../models/media");
+const apiHelper = require('../helpers/api');
+const commonHelper = require('../helpers/common');
+const vkAudioHelper = require('../helpers/vk_audio');
+const filesHelper = require('../helpers/files');
 
 module.exports = {
     vkCallbackAuth: function(req, res) {
@@ -24,8 +24,8 @@ module.exports = {
 			return apiHelper.handleError(res, "Invalid input", "Required params not defined.", 400);
 		}
 
-		var vk_api_options = req.app.locals.vk_api_options;
-		var url = 'https://oauth.vk.com/access_token?client_id=' + vk_api_options.app_id + '&client_secret=' + vk_api_options.app_secret + '&redirect_uri=' + vk_api_options.redirect_uri + '&code=' + req.query.code;
+        const vk_api_options = req.app.locals.vk_api_options;
+		let url = 'https://oauth.vk.com/access_token?client_id=' + vk_api_options.app_id + '&client_secret=' + vk_api_options.app_secret + '&redirect_uri=' + vk_api_options.redirect_uri + '&code=' + req.query.code;
 		console.log('vk request url', url);
 
 		request({ url: url, json: true }, function(error, response, body) {
@@ -34,12 +34,17 @@ module.exports = {
 
 			req.session.vk_service = _.pick(body, ['access_token', 'expires_in', 'user_id']);
 
-			var vk = vkontakte(req.session.vk_service.access_token);
+            const vk = vkontakte(req.session.vk_service.access_token);
 			vk('users.get', {user_ids : req.session.vk_service.user_id, fields: 'domain', v: '5.53'}, function(err, response){
 				console.log('users.get error', err);
-				var vk_user = response[0];
+				let vk_user = response[0];
 
-				User.findOne({ 'vk.id': vk_user.id }, function(err, user) {
+				if(req.session.user_id)
+					User.findOne({ '_id': req.session.user_id }, foundUserCallback);
+				else
+					User.findOne({ 'vk.id': vk_user.id }, foundUserCallback);
+
+				function foundUserCallback(err, user) {
 					if(!user){
 						user = new User({
 							login: vk_user.domain,
@@ -58,14 +63,15 @@ module.exports = {
 
 						res.send('<html><head></head><body><script>window.close();</script></body></html>');
 					});
-				});
+				}
+
 			});
 		}, function(error){
 			console.log('vkCallbackAuth error', error);
 			res.status(500).json(error);
 		});
     },
-	//NOT WORKING IN PRODUCTION(WHEN SERVER IP AND CLIENT IP ARE NOT SAME) :(
+	//NOT WORKING IN PRODUCTION(WHEN SERVER IP AND CLIENT IP ARE NOT EQUAL) :(
 	vkOpenApiAuth: function(req, res){
 		if (!commonHelper.hasProperties(req.body, ['mid', 'secret', 'sid', 'sig'])) {
 			apiHelper.handleError(res, "Invalid input", "Required params not defined.", 400);
@@ -105,21 +111,21 @@ module.exports = {
 	vkAudioListTest: function(req, res) {
 		if(!req.session.user_id || !req.session.vk_service)
 			return apiHelper.handleError(res, "Invalid session", "No user_id or vk_service data on session.", 400);
-		var vk = vkontakte(req.session.vk_service.access_token);
+        const vk = vkontakte(req.session.vk_service.access_token);
 
 		vk('audio.get', {owner_id : req.session.vk_service.user_id , v: '5.53'}, function(err, response){
-			var result = response ? _.map(response.items, (audio) => vkAudioHelper.vkAudioToMedia(audio)) : null;
+			let result = response ? _.map(response.items, (audio) => vkAudioHelper.vkAudioToMedia(audio)) : null;
 
 			apiHelper.APIResponse(res)(err, result);
 		});
 	},
 
     vkAudioSync: function(socket, app) {
-		var permissions = app.locals.permissions;
-		var media_options = app.locals.media_options;
+        const permissions = app.locals.permissions;
+        const media_options = app.locals.media_options;
 
-        var session = socket.request.session;
-        var vk_user_id = null;
+        let session = socket.request.session;
+        let vk_user_id = null;
 
         socket.on('start', function (data) {
             if(!session.user_id || !session.vk_service) {
@@ -135,12 +141,12 @@ module.exports = {
             //=======================================================================================
             // DEFINITIONS
             //=======================================================================================
-            var vk = vkontakte(session.vk_service.access_token),
+            let vk = vkontakte(session.vk_service.access_token),
                 audios = null,
                 user = null,
                 media_ids_dict = null;
 
-            var result = {
+            let result = {
                 total: null,
                 saved: 0,
                 already_exists: 0,
@@ -151,7 +157,7 @@ module.exports = {
                 },
                 getMessage: function(is_error){
                     this.getSummary();
-                    var start_message = is_error ? 'Oops, one of vk audio has error.' : 'Alright, you are in the elite club.';
+                    let start_message = is_error ? 'Oops, one of vk audio has error.' : 'Alright, you are in the elite club.';
                     return start_message + ' VK Audio sync to server - ' + this.total_done + ' of ' + this.total + ' items (saved: ' + this.saved + ', already exist: ' + this.already_exists + ', error: ' + this.error + ')'
                 },
                 getResponseData: function(object){
@@ -163,11 +169,11 @@ module.exports = {
                 if(media && media._id)
                     media_ids_dict[media._id] = media.date;
 
-				if(_.some(user.medias, user_media => user_media.media_id == media._id))
+				if(_.some(user.medias, user_media => user_media.media_id.toString() == media._id.toString()))
 					return;
 
-				var media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
-				var index = media_ids.indexOf(media._id);
+				let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
+				let index = media_ids.indexOf(media._id.toString());
 				user.medias.push({media_id: media._id, index: index});
 
                 user.save();
@@ -203,7 +209,7 @@ module.exports = {
 
 
             function processVkAudios(){
-                var tasks = [];
+                let tasks = [];
 
                 _.forEach(audios, function(vk_audio, index){
 
@@ -222,7 +228,7 @@ module.exports = {
                             media = new Media(vkAudioHelper.vkAudioToMedia(vk_audio));
                             media.user_loaded_id = session.user_id;
 
-                            var path_data = filesHelper.getMediaFilePathData(media);
+                            let path_data = filesHelper.getMediaFilePathData(media);
 
                             if (!fs.existsSync(path_data.absolute_dir_path)){
                                 fs.mkdirSync(path_data.absolute_dir_path);
@@ -231,12 +237,12 @@ module.exports = {
                             if(!vk_audio.url)
                                 return httpError('empty audio');
 
-                            var file = fs.createWriteStream(path_data.absolute_file_path);
+                            let file = fs.createWriteStream(path_data.absolute_file_path);
 
                             try {
                                 console.log('GET ' + vk_audio.url);
 
-                                var httpService = vk_audio.url.indexOf("https:") == 0 ? https : http;
+                                const httpService = vk_audio.url.indexOf("https:") == 0 ? https : http;
                                 httpService.get(vk_audio.url, function(response) {
                                     console.log('httpService callback');
                                     response.on('data', function(data) {

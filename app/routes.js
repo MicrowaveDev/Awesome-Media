@@ -1,7 +1,7 @@
-var vkController = require('./controllers/vk');
-var mediaController = require('./controllers/media');
-var commonController = require('./controllers/common');
-var usersController = require('./controllers/users');
+const vkController = require('./controllers/vk');
+const mediaController = require('./controllers/media');
+const commonController = require('./controllers/common');
+const usersController = require('./controllers/users');
 
 module.exports = function(app){
 

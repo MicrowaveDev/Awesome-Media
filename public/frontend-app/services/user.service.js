@@ -9,7 +9,7 @@ export class UserService {
     }
 
     getCurrent(callback) {
-        var promise;
+        let promise;
         if(this.CurrentUser){
             return callback(this.CurrentUser);
         } else if(this.currentPromise){

@@ -1,4 +1,4 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
 var commonHelper = require("./common");
 
@@ -6,9 +6,9 @@ module.exports = {
     vkAudioToMedia: function(vk_audio){
         //vk_audio fields: https://vk.com/dev/audio_object
 
-        var media = _.pick(vk_audio, ['artist', 'title', 'duration']);
+        let media = _.pick(vk_audio, ['artist', 'title', 'duration']);
 
-        var extension = commonHelper.getExtension(vk_audio.url);
+        let extension = commonHelper.getExtension(vk_audio.url);
 
         _.extend(media, {
             remote_url: vk_audio.url,

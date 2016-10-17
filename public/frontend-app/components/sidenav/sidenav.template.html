@@ -14,7 +14,9 @@
 	</div>
 
 	<h6>Or load your audio from vk:</h6>
-	<button color="accent" md-raised-button (click)="syncAudio()">Sync VK Audio</button>
+
+	<button *ngIf="currentUser.vk && currentUser.vk.id" color="accent" md-raised-button (click)="syncAudio()">Sync VK Audio</button>
+	<button *ngIf="!currentUser.vk || !currentUser.vk.id" md-raised-button (click)="vkAuth()">Bind vk profile</button>
 </div>
 
 <div *ngIf="!currentUser">

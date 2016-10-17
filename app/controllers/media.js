@@ -1,14 +1,14 @@
-var fs = require('fs');
-var _ = require('lodash');
-var multer = require('multer');
+const fs = require('fs');
+const _ = require('lodash');
+const multer = require('multer');
 
-var apiHelper = require('../helpers/api');
-var filesHelper = require('../helpers/files');
-var Media = require("../models/media");
-var User = require("../models/user");
+const apiHelper = require('../helpers/api');
+const filesHelper = require('../helpers/files');
+const Media = require("../models/media");
+const User = require("../models/user");
 
-var config = require("../../config").data;
-var upload = multer(config.multer_options).single('file');
+const config = require("../../config").data;
+const upload = multer(config.multer_options).single('file');
 
 module.exports = {
     getMedia: function(req, res) {
@@ -20,15 +20,12 @@ module.exports = {
         User.findOne({_id: req.session.user_id}, function(err, user){
             if(user)
                 Media.find({ _id: { "$in" : user.medias ? user.medias.map((user_media) => user_media.media_id) : [] } }, function(err, docs){
-                    var userSortedMediaIds = _(user.medias).orderBy(['index'], ['asc']).map((user_media) => user_media.media_id).value();
+                    let userSortedMediaIds = _(user.medias).orderBy(['index'], ['asc']).map((user_media) => user_media.media_id.toString()).value();
 
-                    console.log(userSortedMediaIds);
-                    var sortedMedia = _.orderBy(docs, (media) => {
-                        console.log(media._id, _.indexOf(userSortedMediaIds, media._id));
-                        return userSortedMediaIds.indexOf(media._id);
+                    let sortedMedia = _.orderBy(docs, (media) => {
+                        return userSortedMediaIds.indexOf(media._id.toString());
                     }, ['asc']);
 
-                    console.log(sortedMedia);
                     apiHelper.APIResponse(res)(err, sortedMedia);
                 });
             else
@@ -36,9 +33,9 @@ module.exports = {
         });
     },
     getMediaFiles: function(req, res) {
-        var media_options = req.app.locals.media_options;
+        const media_options = req.app.locals.media_options;
         fs.readdir(media_options.absolute_path, function(err, items) {
-            var result = _.map(items, (file_name) => ({name: file_name, src: media_options.relative_path + file_name, type: "audio/mp3"}));
+            let result = _.map(items, (file_name) => ({name: file_name, src: media_options.relative_path + file_name, type: "audio/mp3"}));
 
             apiHelper.APIResponse(res)(err, result);
         });
@@ -54,10 +51,10 @@ module.exports = {
 
                 filesHelper.fileToMedia(req.file, function (resultMedia){
 
-                    var newMedia = new Media(resultMedia);
+                    let newMedia = new Media(resultMedia);
                     newMedia.user_loaded_id = req.session.user_id;
 
-                    var path_data = filesHelper.getMediaFilePathData(newMedia);
+                    let path_data = filesHelper.getMediaFilePathData(newMedia);
 
                     if (!fs.existsSync(path_data.absolute_dir_path)){
                         fs.mkdirSync(path_data.absolute_dir_path);
@@ -92,7 +89,7 @@ module.exports = {
             return;
         }
 
-        var newMedia = new Media(req.body);
+        let newMedia = new Media(req.body);
         newMedia.save(apiHelper.APIResponse(res));
     }
 };

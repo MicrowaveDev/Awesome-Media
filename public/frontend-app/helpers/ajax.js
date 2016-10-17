@@ -44,14 +44,14 @@ export class Ajax {
     }
 
     ajax(method, url, params) {
-        var options = new RequestOptions();
+        let options = new RequestOptions();
         options.method = method;
 
         if (method == 'post' || method == 'update') {
             if (_.isObject(params))
                 params = JSON.stringify(params);
 
-            var headers = new Headers();
+            let headers = new Headers();
             headers.append('Content-Type', 'application/json');
 
             options.headers = headers;
