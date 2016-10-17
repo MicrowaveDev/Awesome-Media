@@ -283,9 +283,11 @@ module.exports = {
 						_.forEach(dbUser.medias, (user_media, index) => {
 							if(!user_media.number && user_media.source == 'vk'){
 								dbUser.medias[index].number = media_ids.indexOf(user_media.media_id.toString());
+								console.log(user_media._id, dbUser.medias[index].number);
 							}
 						});
 
+						console.log('dbUser.save');
 						dbUser.save(function(){
 							socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
 							socket.disconnect(0);
