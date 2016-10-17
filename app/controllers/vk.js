@@ -172,7 +172,7 @@ module.exports = {
 				if(_.some(user.medias, user_media => user_media.media_id.toString() == media._id.toString()))
 					return;
 
-				user.medias.push({media_id: media._id, number: 0});
+				user.medias.push({media_id: media._id, source: 'vk', number: 0});
                 user.save();
             }
             //=======================================================================================
@@ -286,7 +286,7 @@ module.exports = {
 
 						let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
 						_.forEach(user.medias, (user_media) => {
-							if(!user_media.number && user_media.vk){
+							if(!user_media.number && user_media.source == 'vk'){
 								user_media.number = media_ids.indexOf(user_media.media_id.toString());
 							}
 						});

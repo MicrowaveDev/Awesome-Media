@@ -71,7 +71,7 @@ module.exports = {
                                 max_number = user_media.number > max_number ? user_media.number: max_number;
                             });
 
-                            user.medias.push({media_id: doc._id, number: max_number + 1});
+                            user.medias.push({media_id: doc._id, source: 'manual', number: max_number + 1});
 
                             user.save();
                             apiHelper.APIResponse(res)(err, doc);
