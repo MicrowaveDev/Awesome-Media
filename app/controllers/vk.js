@@ -290,6 +290,7 @@ module.exports = {
 							}
 						});
 
+						user.markModified('medias');
 						user.save();
 
 						socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
