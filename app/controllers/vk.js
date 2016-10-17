@@ -172,11 +172,7 @@ module.exports = {
 				if(_.some(user.medias, user_media => user_media.media_id.toString() == media._id.toString()))
 					return;
 
-				let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
-				let number = media_ids.indexOf(media._id.toString());
-
-				user.medias.push({media_id: media._id, number: number});
-
+				user.medias.push({media_id: media._id, number: 0});
                 user.save();
             }
             //=======================================================================================
@@ -285,19 +281,20 @@ module.exports = {
 
                     //END ALL TASKS
 
-                    socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
-                    socket.disconnect(0);
-                    console.log('result', result);
-                    console.log('[DISCONNECT]');
-
                     User.findOne({_id: session.user_id}, function(err, dbUser) {
-                        user = dbUser;
+						user = dbUser;
 
-                        console.log('current user media ids: ', dbUser.media_ids);
-                        console.log('-----------------------------------------');
-                        console.log('result user media ids: ', commonHelper.getKeysSortedByValue(media_ids_dict));
+						let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
+						_.forEach(user.medias, (user_media) => {
+							if(!user_media.number && user_media.vk){
+								user_media.number = media_ids.indexOf(user_media.media_id.toString());
+							}
+						});
 
-                        addMediaToUser();
+						user.save();
+
+						socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
+						socket.disconnect(0);
                     });
                 });
             }
