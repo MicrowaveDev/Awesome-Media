@@ -66,11 +66,12 @@ module.exports = {
 
                         newMedia.path = path_data.relative_file_path;
                         newMedia.save(function(err, doc){
+                            var max_number = 0;
                             user.medias.forEach((user_media) => {
-                                user_media.index += 1;
+                                max_number = user_media.number > max_number ? user_media.number: max_number;
                             });
 
-                            user.medias.push({media_id: doc._id, index: 0});
+                            user.medias.push({media_id: doc._id, number: max_number + 1});
 
                             user.save();
                             apiHelper.APIResponse(res)(err, doc);

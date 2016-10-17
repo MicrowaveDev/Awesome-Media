@@ -18,8 +18,8 @@ const User = mongoose.model('User', {
 
     medias: [new mongoose.Schema({
         media_id: Types.ObjectId,
-        index: Number,
-        listened_number: Number
+        number: Number,
+        plays_count: Number
     })]
 });
 

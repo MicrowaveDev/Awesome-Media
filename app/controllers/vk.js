@@ -172,9 +172,10 @@ module.exports = {
 				if(_.some(user.medias, user_media => user_media.media_id.toString() == media._id.toString()))
 					return;
 
-				let media_ids = _.reverse(commonHelper.getKeysSortedByValue(media_ids_dict));
-				let index = media_ids.indexOf(media._id.toString());
-				user.medias.push({media_id: media._id, index: index});
+				let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
+				let number = media_ids.indexOf(media._id.toString());
+
+				user.medias.push({media_id: media._id, number: number});
 
                 user.save();
             }
