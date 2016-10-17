@@ -287,11 +287,12 @@ module.exports = {
 						_.forEach(user.medias, (user_media, index) => {
 							if(!user_media.number && user_media.source == 'vk'){
 								user_media.number = media_ids.indexOf(user_media.media_id.toString());
+								delete user_media._id;
 								user.medias.set(index, user_media);
 							}
 						});
 
-						user.markModified('medias')
+						user.markModified('medias');
 						user.save();
 
 						socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
