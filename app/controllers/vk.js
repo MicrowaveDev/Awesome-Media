@@ -286,14 +286,13 @@ module.exports = {
 						_.forEach(dbUser.medias, (user_media, index) => {
 							if(!user_media.number && user_media.source == 'vk'){
 								dbUser.medias[index].number = media_ids.indexOf(user_media.media_id.toString());
-								console.log('user.medias[index].number ', dbUser.medias[index].number)
 							}
 						});
 
-						dbUser.save();
-
-						socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
-						socket.disconnect(0);
+						dbUser.save(function(){
+							socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
+							socket.disconnect(0);
+						});
                     });
                 });
             }
