@@ -167,7 +167,7 @@ module.exports = {
 
             function addMediaToUser(media){
                 if(media && media._id)
-                    media_ids_dict[media._id] = media.date;
+                    media_ids_dict[media._id] = media.vk ? media.vk.date : media.date;
 
 				if(_.some(user.medias, user_media => user_media.media_id.toString() == media._id.toString()))
 					return;
