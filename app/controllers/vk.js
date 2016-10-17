@@ -288,6 +288,7 @@ module.exports = {
 						_.forEach(user.medias, (user_media) => {
 							if(!user_media.number && user_media.source == 'vk'){
 								user_media.number = media_ids.indexOf(user_media.media_id.toString());
+								console.log('user_media.number = ' + user_media.number);
 							}
 						});
 
