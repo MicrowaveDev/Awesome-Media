@@ -1,4 +1,4 @@
-var vkController = require('./controllers/vk');
+const vkController = require('./controllers/vk');
 
 module.exports = function(io, app){
 

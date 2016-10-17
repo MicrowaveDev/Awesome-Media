@@ -1,5 +1,5 @@
-var apiHelper = require('../helpers/api');
-var User = require("../models/user");
+const apiHelper = require('../helpers/api');
+const User = require("../models/user");
 
 module.exports = {
     users: function(req, res) {
@@ -15,7 +15,7 @@ module.exports = {
                     req.session.user_id = docs[0]._id;
                     next();
                 } else {
-                    var user = new User({
+                    let user = new User({
                         login: 'Test',
                         first_name: 'FirstName',
                         last_name: 'LastName',

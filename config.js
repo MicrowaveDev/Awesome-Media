@@ -1,7 +1,7 @@
-var application_root = __dirname;
+const application_root = __dirname;
 
-var media_path = "/media/";
-var config = {
+const media_path = "/media/";
+let config = {
 	media_options: {
 		relative_path: media_path,
 		absolute_path: application_root +  "/public" + media_path
@@ -23,6 +23,6 @@ var config = {
 module.exports.data = config;
 
 module.exports.setLocals = function(app){
-	var _ = require('lodash');
+	const _ = require('lodash');
 	_.extend(app.locals, config);
 };

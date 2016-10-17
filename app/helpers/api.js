@@ -17,7 +17,7 @@ module.exports = {
     },
 
     socketResponse: function  (err, message, data){
-        var response = {
+        let response = {
             error: err,
             message: message,
             data: data

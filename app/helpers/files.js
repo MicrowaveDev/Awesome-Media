@@ -1,15 +1,15 @@
-var _ = require('lodash');
-var probe = require('node-ffprobe');
+const _ = require('lodash');
+const probe = require('node-ffprobe');
 
-var commonHelper = require("./common");
-var filesHelper = require("./files");
-var config = require("../../config").data;
+const commonHelper = require("./common");
+const filesHelper = require("./files");
+const config = require("../../config").data;
 
 module.exports = {
     fileToMedia: function(multer_file, callback){
         //multer_file fields: https://github.com/expressjs/multer#api
 
-        var separatedName = multer_file.originalname.split('-'),
+        let separatedName = multer_file.originalname.split('-'),
             media = {};
 
         media.path = multer_file.path;
@@ -19,7 +19,7 @@ module.exports = {
         //remove artist from separatedName
         separatedName.splice(0, 1);
 
-        var separatedTitle = separatedName.join('-').split('.');
+        let separatedTitle = separatedName.join('-').split('.');
         //remove extension from separatedTitle
         separatedTitle.splice(separatedTitle.length - 1, 1);
 
@@ -37,22 +37,22 @@ module.exports = {
         return media;
     },
     getMediaFileName: function(media){
-        var old_file_name = media.artist + ' - ' + media.title;
-        var file_name = old_file_name.replace(/[^\wа-яёА-ЯЁa-zA-Z\s.,-]/gi, ' ');
+        let old_file_name = media.artist + ' - ' + media.title;
+        let file_name = old_file_name.replace(/[^\wа-яёА-ЯЁa-zA-Z\s.,-]/gi, ' ');
         if(file_name.length > 100)
             file_name = file_name.substring(0, 100);
 
         file_name = _.trim(file_name);
 
         console.log(old_file_name, '=>', file_name);
-        var extension = media.type ? _.last(media.type.split('/')) : commonHelper.getExtension(media.url || media.path);
+        let extension = media.type ? _.last(media.type.split('/')) : commonHelper.getExtension(media.url || media.path);
         file_name += "." + extension;
 
         return file_name;
     },
     getMediaFilePathData: function(media){
-        var result = {};
-        var in_media_dir = media.user_loaded_id + '/';
+        let result = {};
+        let in_media_dir = media.user_loaded_id + '/';
 
         result.relative_dir_path = config.media_options.relative_path + in_media_dir;
         result.absolute_dir_path = config.media_options.absolute_path + in_media_dir;

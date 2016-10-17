@@ -42,7 +42,7 @@ export class SidenavComponent {
             });
 
         //TODO: fix ugly code
-        var self = this;
+        let self = this;
         //this.uploader.onCompleteAll = ()=>{
         //    self.onUploadMedia.next();
         //};
@@ -59,9 +59,9 @@ export class SidenavComponent {
     }
 
     vkAuth(){
-        var o = this._app_config.vk_api_options;
+        const o = this._app_config.vk_api_options;
 
-		var vk_window = window.open(`https://oauth.vk.com/authorize?client_id=${o.app_id}&display=popup&redirect_uri=${o.redirect_uri}&scope=${o.scope}&response_type=code&v=5.53`, 'VK Auth', 'width=900,height=600');
+		let vk_window = window.open(`https://oauth.vk.com/authorize?client_id=${o.app_id}&display=popup&redirect_uri=${o.redirect_uri}&scope=${o.scope}&response_type=code&v=5.53`, 'VK Auth', 'width=900,height=600');
 
         vk_window.onunload = () => {
             this.onVkAuth.next();

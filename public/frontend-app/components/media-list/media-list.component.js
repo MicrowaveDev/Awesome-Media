@@ -85,7 +85,7 @@ export class MediaListComponent {
         this._vg_api.play();
     }
     nextMedia(){
-        var mediaIndex = this.mediaList.indexOf(this.currentMedia);
+        let mediaIndex = this.mediaList.indexOf(this.currentMedia);
         if(mediaIndex == this.mediaList.length - 1){
             mediaIndex = -1;
         }
@@ -115,7 +115,7 @@ export class MediaListComponent {
         }, this.userError.bind(this));
     }
     onSyncAudio(){
-        var socket = this._socket_service.get("vk_audio_sync", (response) => {
+        let socket = this._socket_service.get("vk_audio_sync", (response) => {
             if(response.error){
                 alert(response.message);
             } else {
