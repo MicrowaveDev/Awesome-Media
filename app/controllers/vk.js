@@ -280,15 +280,13 @@ module.exports = {
 
                     //END ALL TASKS
 
-                    User.findOne({_id: session.user_id}, function(err, dbUser) {
-
+					user.save(function(err, dbUser) {
 						let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
 						_.forEach(dbUser.medias, (user_media, index) => {
 							if(!user_media.number && user_media.source == 'vk'){
 								dbUser.medias[index].number = media_ids.indexOf(user_media.media_id.toString());
 							}
 						});
-						dbUser.medias = _.clone(dbUser.medias);
 
 						dbUser.save(function(){
 							socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
