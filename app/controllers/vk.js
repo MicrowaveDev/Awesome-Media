@@ -280,14 +280,15 @@ module.exports = {
 
 					user.save(function(err, dbUser) {
 						let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
-						_.forEach(dbUser.medias, (user_media, index) => {
-							if(!user_media.number && user_media.source == 'vk'){
-								dbUser.medias[index].number = media_ids.indexOf(user_media.media_id.toString());
-								console.log(user_media._id, dbUser.medias[index].number);
-							}
+						dbUser.medias = _.map(dbUser.medias, (user_media, index) => {
+							if(!user_media.number && user_media.source == 'vk')
+								user_media.number = media_ids.indexOf(user_media.media_id.toString());
+
+							return user_media;
 						});
 
-						console.log('dbUser.save');
+						dbUser.markModified('medias');
+
 						dbUser.save(function(){
 							socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
 							socket.disconnect(0);
