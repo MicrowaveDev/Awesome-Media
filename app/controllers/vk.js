@@ -241,7 +241,6 @@ module.exports = {
 
                                 const httpService = vk_audio.url.indexOf("https:") == 0 ? https : http;
                                 httpService.get(vk_audio.url, function(response) {
-                                    console.log('httpService callback');
                                     response.on('data', function(data) {
                                         file.write(data);
                                     }).on('end', function() {
@@ -285,10 +284,9 @@ module.exports = {
 						user = dbUser;
 
 						let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
-						_.forEach(user.medias, (user_media) => {
+						_.forEach(user.medias, (user_media, index) => {
 							if(!user_media.number && user_media.source == 'vk'){
-								user_media.number = media_ids.indexOf(user_media.media_id.toString());
-								console.log('user_media.number = ' + user_media.number);
+								user.medias[index].number = media_ids.indexOf(user_media.media_id.toString());
 							}
 						});
 
