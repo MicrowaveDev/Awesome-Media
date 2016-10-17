@@ -286,7 +286,7 @@ module.exports = {
 						let media_ids = commonHelper.getKeysSortedByValue(media_ids_dict);
 						_.forEach(user.medias, (user_media, index) => {
 							if(!user_media.number && user_media.source == 'vk'){
-								user.medias[index].number = media_ids.indexOf(user_media.media_id.toString());
+								user.medias[index] = _.extend(user.medias[index], {number: media_ids.indexOf(user_media.media_id.toString())});
 							}
 						});
 
