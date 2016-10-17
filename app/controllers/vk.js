@@ -288,6 +288,7 @@ module.exports = {
 								dbUser.medias[index].number = media_ids.indexOf(user_media.media_id.toString());
 							}
 						});
+						dbUser.medias = _.clone(dbUser.medias);
 
 						dbUser.save(function(){
 							socket.emit('all_success', apiHelper.socketResponse(err, "VK Audio Sync complete", result));
