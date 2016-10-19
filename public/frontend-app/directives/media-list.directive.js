@@ -1,10 +1,7 @@
 import {Component, EventEmitter} from '@angular/core';
 
-import template from './audio-player.template.html';
+import template from './media-list.template.html';
 
-import { VgAPI } from 'videogular2/core';
-import {MediaModel} from "../models/media.model";
-import {CommonHelper} from "../helpers/common";
 
 @Component({
 	selector: 'audio-player',

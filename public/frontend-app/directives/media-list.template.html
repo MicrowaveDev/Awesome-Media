@@ -1,0 +1,8 @@
+<div>
+	<h3>{{listLabel || 'Audio list:'}}</h3>
+	<p [hidden]="loaded && mediaList && mediaList.length">{{message || 'No media :( You are logged in?'}}</p>
+	<md-progress-bar *ngIf="!loaded" mode="indeterminate"></md-progress-bar>
+	<ul>
+		<li *ngFor="let audio of mediaList" [ngClass]="{'bold': audio == currentMedia}"><a href (click)="setCurrentMedia(audio)">{{audio.artist}} - {{audio.title}}</a></li>
+	</ul>
+</div>
