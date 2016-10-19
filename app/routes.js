@@ -20,9 +20,9 @@ module.exports = function(app){
     app.post("/api/media", mediaController.postMedia);
     app.post('/api/media-upload', commonController.prepareTestUser, mediaController.uploadMedia);
 
-    app.get('/api/test_env', function(req, res){
-        res.status(200).json(process.env);
-    });
+    // app.get('/api/test_env', function(req, res){
+    //     res.status(200).json(process.env);
+    // });
 };
 
 
