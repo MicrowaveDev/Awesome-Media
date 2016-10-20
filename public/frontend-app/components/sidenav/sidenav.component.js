@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, Output, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 
@@ -10,20 +10,21 @@ import template from './sidenav.template.html';
 
 @Component({
     selector: 'sidenav',
-    template: template,
-    inputs: ['currentUser', 'message', 'allowToCreateFirstUser'],
-    outputs: ['onVkAuth', 'onUploadMedia', 'onSyncAudio', 'onSaveNewUser', 'onLogInUser']
+    template: template
 })
 export class SidenavComponent {
-    onVkAuth: EventEmitter = new EventEmitter();
-    onUploadMedia: EventEmitter = new EventEmitter();
-    onSyncAudio: EventEmitter = new EventEmitter();
-    onSaveNewUser: EventEmitter = new EventEmitter();
-    onLogInUser: EventEmitter = new EventEmitter();
+    @Output() onVkAuth: EventEmitter = new EventEmitter();
+    @Output() onUploadMedia: EventEmitter = new EventEmitter();
+    @Output() onSyncAudio: EventEmitter = new EventEmitter();
+    @Output() onSaveNewUser: EventEmitter = new EventEmitter();
+    @Output() onLogInUser: EventEmitter = new EventEmitter();
+
+    @Input() currentUser: UserModel;
+    @Input() message: String;
+    @Input() allowToCreateFirstUser: Boolean;
 
     uploader = new FileUploader({url: '/api/media-upload'});
 
-    currentUser: UserModel;
     newUser = null;
     logInUser = null;
 
@@ -41,13 +42,8 @@ export class SidenavComponent {
 
             });
 
-        //TODO: fix ugly code
-        let self = this;
-        //this.uploader.onCompleteAll = ()=>{
-        //    self.onUploadMedia.next();
-        //};
         this.uploader.onCompleteItem = ()=>{
-            self.onUploadMedia.next();
+            this.onUploadMedia.next();
         };
     }
 

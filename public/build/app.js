@@ -81581,7 +81581,7 @@ var app =
 	  });
 	});
 	
-	var _mediaList = __webpack_require__(/*! ./media-list/media-list.component */ 367);
+	var _mediaList = __webpack_require__(/*! ./media/media.component */ 367);
 	
 	Object.keys(_mediaList).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -81829,7 +81829,7 @@ var app =
 /***/ },
 /* 367 */
 /*!***************************************************************************!*\
-  !*** ./public/frontend-app/components/media-list/media-list.component.js ***!
+  !*** ./public/frontend-app/components/media/media.component.js ***!
   \***************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -81860,7 +81860,7 @@ var app =
 	
 	var _user2 = __webpack_require__(/*! ../../models/user.model */ 364);
 	
-	var _mediaListTemplate = __webpack_require__(/*! ./media-list.template.html */ 377);
+	var _mediaListTemplate = __webpack_require__(/*! ./media.template.html */ 377);
 	
 	var _mediaListTemplate2 = _interopRequireDefault(_mediaListTemplate);
 	
@@ -82972,7 +82972,7 @@ var app =
 /***/ },
 /* 377 */
 /*!****************************************************************************!*\
-  !*** ./public/frontend-app/components/media-list/media-list.template.html ***!
+  !*** ./public/frontend-app/components/media/media.template.html ***!
   \****************************************************************************/
 /***/ function(module, exports) {
 
@@ -95805,7 +95805,7 @@ var app =
 	});
 	exports.routes = undefined;
 	
-	var _mediaList = __webpack_require__(/*! ./media-list/media-list.component */ 367);
+	var _mediaList = __webpack_require__(/*! ./media/media.component */ 367);
 	
 	var routes = exports.routes = [{ path: '', component: _mediaList.MediaListComponent, pathMatch: 'full' }, { path: ':status', component: _mediaList.MediaListComponent }];
 

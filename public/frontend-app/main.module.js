@@ -8,7 +8,7 @@ import { Ajax } from './helpers/ajax';
 import { MediaService } from './services/media.service';
 import {
     AppComponent,
-    MediaListComponent,
+    MediaComponent,
     SidenavComponent
 } from './components';
 
@@ -33,13 +33,18 @@ import {UserService} from "./services/user.service";
 import {SocketService} from "./services/socket.service";
 
 import * as config from '../../config';
+import {MediaList} from "./directives/media-list.directive";
+import {LoadMedia} from "./broadcasters/load-media";
+import {Broadcaster} from "./broadcasters/broadcaster";
+import {PlayMedia} from "./broadcasters/play-media";
 
 @NgModule({
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
-        MediaListComponent,
+        MediaComponent,
         SidenavComponent,
+        MediaList,
         //TodoHeaderComponent,
         //TodoItemComponent,
         TrimPipe,
@@ -71,6 +76,9 @@ import * as config from '../../config';
         MediaService,
         UserService,
         SocketService,
+        Broadcaster,
+        LoadMedia,
+        PlayMedia,
         { provide: 'AppConfig', useValue: config.data }
     ],
 })

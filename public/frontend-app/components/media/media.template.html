@@ -1,0 +1,19 @@
+<md-sidenav-layout style="height: 100%;">
+	<md-sidenav opened="true" mode="side" align="start" class="padding">
+		<sidenav
+				[(currentUser)]="currentUser"
+				(onSaveNewUser)="onSaveNewUser($event)"
+				(onLogInUser)="onLogInUser($event)"
+				(onVkAuth)="onVkAuth()"
+				(onSyncAudio)="onSyncAudio()"
+				(onUploadMedia)="onUploadMedia()"
+				[message]="sideNavMessage"
+				[allowToCreateFirstUser]="users && users.length ? false : true">
+		</sidenav>
+	</md-sidenav>
+
+	<audio-player [audio]="currentMedia" (onEnded)="nextMedia()"></audio-player>
+
+	<media-list class="padding" [(list)]="mediaList" [(current)]="currentMedia" (onChangeCurrent)="setCurrentMedia($event)" (onLoadList)="mediaListLoaded($event)"></media-list>
+</md-sidenav-layout>
+

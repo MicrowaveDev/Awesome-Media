@@ -1,58 +1,68 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component, NgZone, EventEmitter, Output, Input} from '@angular/core';
 
 import template from './media-list.template.html';
-
+import {MediaService} from "../services/media.service";
+import {LoadMedia} from "../broadcasters/load-media";
+import {MediaModel} from "../models/media.model";
 
 @Component({
-	selector: 'audio-player',
-	template: template,
-	inputs: [ 'audio' ],
-	outputs: [ 'onEnded' ]
+	selector: 'media-list',
+	template: template
 })
-export class AudioPlayer implements OnInit, OnChanges {
-	onEnded: EventEmitter = new EventEmitter();
-	isFirst: Boolean = true;
-	audio: MediaModel;
+export class MediaList implements OnInit {
+	@Output() onChangeCurrent: EventEmitter = new EventEmitter();
+	@Output() onLoadList: EventEmitter = new EventEmitter();
+	@Input() list : Array<MediaModel>;
+	@Input() current : MediaModel;
 
-	constructor (vg_api : VgAPI) {
-		this._vg_api = vg_api;
+	constructor (media_service : MediaService, load_media: LoadMedia) {
+		this._media_service = media_service;
+		this._load_media = load_media;
+		this.zone = new NgZone({enableLongStackTrace: false});
+
+		this._load_media.on().subscribe(options => {
+			this.loadUserMedia();
+		});
 	}
 
 	ngOnInit() {
-		console.log('audio init', this.audio);
+		this.loadUserMedia();
 	}
 
-	ngOnChanges(changes: {audio: SimpleChange}) {
-		if(!this.audio)
-			return;
+	selectMedia(media) {
+		this.current = media;
+		this.onChangeCurrent.emit(media);
+	}
 
-		if(this.isFirst){
-			this.isFirst = false;
-			return;
+	loadUserMedia(){
+		this.loaded = false;
+
+		function loadError(error){
+			this.zone.run(() => {
+				this.message = _.has(error, '_body') ? error._body : error;
+				this.loaded = true;
+			});
 		}
-
-		this.audio = changes.audio.currentValue;
-		setTimeout((() => {
-			//https://github.com/videogular/videogular2/issues/112
-			this._vg_api.getDefaultMedia().elem.load();
-			this._vg_api.play();
-		}).bind(this), 300);
-	}
-	onPlayerReady(){
-		console.log("onPlayerReady");
-		let self = this;
-		this._vg_api.subscriptions.ended._subscribe(CommonHelper.handleEmitter((e) => {
-			self.onEnded.next(self.audio);
-			console.log('_vg_api.subscriptions.ended');
-		}));
-	}
-	onEnterCuePoint(){
-		console.log("onEnterCuePoint");
-	}
-	onExitCuePoint(){
-		console.log("onExitCuePoint");
-	}
-	onComplete(){
-		console.log("onComplete");
+		function initMedia(media_list){
+			this.list = media_list;
+			this.current = media_list[0];
+			this.loaded = true;
+			this.onLoadList.emit(media_list);
+		}
+		this._media_service.query().then((result) => {
+			if(result.length) {
+				this.listLabel = 'Local audio list:';
+				initMedia.bind(this)(result);
+			}
+			else {
+				this.message = 'No media :(';
+				this.loaded = true;
+				//TODO: make it worked
+				//this._ajax.get('/api/vk_audio_list').then((media_list) => {
+				//    this.listLabel = 'VK audio list:';
+				//    initMedia(media_list);
+				//}, loadError.bind(this))
+			}
+		}, loadError.bind(this));
 	}
 }

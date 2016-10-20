@@ -1,6 +1,6 @@
-import { MediaListComponent } from './media-list/media-list.component';
+import { MediaComponent } from './media/media.component';
 
 export let routes = [
-    { path: '', component: MediaListComponent, pathMatch: 'full' },
-    { path: ':status', component: MediaListComponent }
+    { path: '', component: MediaComponent, pathMatch: 'full' },
+    //{ path: ':status', component: MediaListComponent }
 ];
