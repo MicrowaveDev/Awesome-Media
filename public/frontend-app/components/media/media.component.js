@@ -24,13 +24,10 @@ export class MediaComponent {
 
     sideNavMessage = '';
 
-    constructor(media_service : MediaService, user_service : UserService, route: ActivatedRoute, vg_api: VgAPI, ajax: Ajax,
+    constructor(media_service : MediaService, user_service : UserService,
      socket_service: SocketService, load_media: LoadMedia, play_media: PlayMedia){
         this._media_service = media_service;
         this._user_service = user_service;
-        this._route = route;
-        this._vg_api = vg_api;
-        this._ajax = ajax;
         this._socket_service = socket_service;
         this._load_media = load_media;
         this._play_media = play_media;
@@ -50,6 +47,7 @@ export class MediaComponent {
 
     mediaListLoaded(media_list){
         this.mediaList = media_list;
+        this.loaded = false;
     }
     setCurrentMedia(media){
         this.currentMedia = media;
@@ -86,14 +84,13 @@ export class MediaComponent {
         }, this.userError.bind(this));
     }
     onSyncAudio(){
-        //TODO: implement logic in AudioSync class
         let socket = this._socket_service.get("vk_audio_sync", (response) => {
             if(response.error){
                 alert(response.message);
             } else {
                 this.listLabel = 'Local audio list:';
                 this.mediaList = [];
-                this.message = response.message;
+                this.mediaListMessage = response.message;
                 this.loaded = false;
             }
         });
@@ -102,25 +99,19 @@ export class MediaComponent {
             if(response.data && response.data.object){
                 this.mediaList.push(response.data.object);
             }
-            this.message = response.message;
+            this.mediaListMessage = response.message;
         });
 
         socket.on("all_success", (response) => {
             this.sync_success = true;
-            this.message = 'All media are synced! Refresh audio list...';
+            this.mediaListMessage = 'All media are synced! Refresh audio list...';
 
-            this._media_service.query().then((result) => {
-                this.mediaList = result;
-            })
+            this._load_media.fire();
         });
 
         socket.on("disconnect", (response) => {
             if(!this.sync_success)
-                this.message = 'Something wrong, refresh page and try again.';
-            else
-                setTimeout(() => {
-                    this.loaded = true;
-                }, 5000);
+                this.mediaListMessage = 'Something wrong, refresh page and try again.';
         });
     }
 }

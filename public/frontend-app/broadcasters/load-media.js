@@ -9,8 +9,8 @@ export class LoadMedia {
 		this._broadcaster = broadcaster;
 	}
 
-	fire(options = null)  {
-		this._broadcaster.broadcast('LoadMedia', options);
+	fire(options, callback) {
+		this._broadcaster.broadcast('LoadMedia', options, callback);
 	}
 
 	on() {

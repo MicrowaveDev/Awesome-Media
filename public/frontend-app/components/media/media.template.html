@@ -14,6 +14,8 @@
 
 	<audio-player [audio]="currentMedia" (onEnded)="nextMedia()"></audio-player>
 
-	<media-list class="padding" [(list)]="mediaList" [(current)]="currentMedia" (onChangeCurrent)="setCurrentMedia($event)" (onLoadList)="mediaListLoaded($event)"></media-list>
+	<md-progress-bar *ngIf="!loaded" mode="indeterminate"></md-progress-bar>
+
+	<media-list class="padding" [(list)]="mediaList" [(current)]="currentMedia" [message]="mediaListMessage" (onChangeCurrent)="setCurrentMedia($event)" (onLoadList)="mediaListLoaded($event)"></media-list>
 </md-sidenav-layout>
 
