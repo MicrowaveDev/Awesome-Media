@@ -96477,6 +96477,13 @@ var app =
 				console.log('audio init', this.audio);
 			}
 		}, {
+			key: 'ngOnChanges',
+			value: function ngOnChanges(changes) {
+				if (!this.audio) return;
+	
+				this._vg_api.getDefaultMedia().elem.load();
+			}
+		}, {
 			key: 'onPlayerReady',
 			value: function onPlayerReady() {
 				var self = this;
