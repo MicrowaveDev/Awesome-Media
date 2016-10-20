@@ -32,6 +32,12 @@ export class AudioPlayer implements OnInit, OnChanges {
 	ngOnInit() {
 		console.log('audio init', this.audio);
 	}
+	ngOnChanges(changes: {audio: SimpleChange}) {
+		if(!this.audio)
+			return;
+
+		this._vg_api.getDefaultMedia().elem.load();
+	}
 
 	onPlayerReady(){
 		let self = this;
