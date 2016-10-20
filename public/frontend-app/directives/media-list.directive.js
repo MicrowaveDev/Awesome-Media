@@ -13,8 +13,25 @@ export class MediaList implements OnInit {
 	@Output() onChangeCurrent: EventEmitter = new EventEmitter();
 	@Output() onLoadList: EventEmitter = new EventEmitter();
 	@Input() list : Array<MediaModel>;
-	@Input() current : MediaModel;
 	@Input() message : String;
+
+	@Output() mediaSelect: EventEmitter = new EventEmitter();
+	@Output() currentMediaChange: EventEmitter = new EventEmitter();
+
+	_currentMedia: MediaModel;
+	@Input()
+	get	currentMedia () {
+		return this._currentMedia;
+	};
+	set	currentMedia (value) {
+		this._currentMedia = value;
+		this.currentMediaChange.emit(value);
+	};
+
+	selectMedia(media) {
+		this.currentMedia = media;
+		this.mediaSelect.emit(media);
+	}
 
 	constructor (media_service : MediaService, load_media: LoadMedia) {
 		this._media_service = media_service;
@@ -30,11 +47,6 @@ export class MediaList implements OnInit {
 		this.loadUserMedia();
 	}
 
-	selectMedia(media) {
-		this.current = media;
-		this.onChangeCurrent.emit(media);
-	}
-
 	loadUserMedia(callback){
 		this.loaded = false;
 
@@ -47,7 +59,8 @@ export class MediaList implements OnInit {
 		function initMedia(media_list){
 			this.list = media_list;
 			if(media_list.length > 0)
-				this.current = media_list[0];
+				this.currentMedia = media_list[0];
+
 			this.loaded = true;
 			this.onLoadList.emit(media_list);
 			if(callback)

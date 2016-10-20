@@ -16,6 +16,6 @@
 
 	<md-progress-bar *ngIf="!loaded" mode="indeterminate"></md-progress-bar>
 
-	<media-list class="padding" [(list)]="mediaList" [(current)]="currentMedia" [message]="mediaListMessage" (onChangeCurrent)="setCurrentMedia($event)" (onLoadList)="mediaListLoaded($event)"></media-list>
+	<media-list class="padding" [(list)]="mediaList" [(currentMedia)]="currentMedia" [message]="mediaListMessage" (mediaSelect)="mediaSelected($event)" (onLoadList)="mediaListLoaded($event)"></media-list>
 </md-sidenav-layout>
 

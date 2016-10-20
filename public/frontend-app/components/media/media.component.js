@@ -47,9 +47,9 @@ export class MediaComponent {
 
     mediaListLoaded(media_list){
         this.mediaList = media_list;
-        this.loaded = false;
+        this.loaded = true;
     }
-    setCurrentMedia(media){
+    mediaSelected(media){
         this.currentMedia = media;
         this._play_media.fire();
     }
@@ -58,7 +58,7 @@ export class MediaComponent {
         if(mediaIndex == this.mediaList.length - 1){
             mediaIndex = -1;
         }
-        this.setCurrentMedia(this.mediaList[++mediaIndex]);
+        this.mediaSelected(this.mediaList[++mediaIndex]);
     }
     onVkAuth(){
         this._load_media.fire();

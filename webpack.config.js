@@ -52,10 +52,10 @@ var config = {
             allChunks: true
         }),
         //http://projects.theforeman.org/issues/16599
-        //new webpack.optimize.UglifyJsPlugin({
-        //   compress: { warnings: false }
-        //}),
-        //new UnminifiedWebpackPlugin()
+        new webpack.optimize.UglifyJsPlugin({
+          compress: { warnings: false }
+        }),
+        new UnminifiedWebpackPlugin()
     ],
     sassLoader: {
         includePaths: [path.resolve(__dirname, "./public/scss")]
