@@ -86,6 +86,7 @@ export class MediaComponent {
         }, this.userError.bind(this));
     }
     onSyncAudio(){
+        //TODO: implement logic in AudioSync class
         let socket = this._socket_service.get("vk_audio_sync", (response) => {
             if(response.error){
                 alert(response.message);
