@@ -71,6 +71,7 @@ Then manual upload audio to application
 
 ## TODO:
 
+- Edit and remove from UI
 - Fix not first sync with vk
 - Place "Manual load VK audio" script on app interface with instruction
 - Cron for load audio
