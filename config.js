@@ -13,7 +13,7 @@ let config = {
 		scope: 'audio,offline'//,nohttps
 	},
 	permissions: {
-		vkUsersIds: [11204355, 179126482, 182778898, 1935590, 18365571]
+		vkUsersIds: [11204355, 179126482, 182778898, 1935590, 18365571, 349093873]
 	},
 	multer_options: {
 		dest: './public/' + media_path + 'temp/'
