@@ -86,7 +86,7 @@
     "socket.io-client": "^1.4.8",
     "style-loader": "^0.13.1",
     "unminified-webpack-plugin": "^1.1.1",
-    "videogular2": "^0.13.1",
+    "videogular2": "^0.13.3",
     "webpack": "^1.13.2",
     "zone.js": "^0.6.25"
   }

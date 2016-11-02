@@ -7,11 +7,22 @@ require('es6-promise').polyfill();
 
 //NODE_ENV=production webpack
 
+function isInDirectory(dir) {
+    return function isExternal(module) {
+        var userRequest = module.userRequest;
+
+        if (typeof userRequest !== 'string') {
+            return false;
+        }
+
+        return userRequest.indexOf(dir) >= 0;
+    }
+}
+
 var config = {
     context: __dirname,
     entry: {
-        polyfills: './public/frontend-app/polyfills.js',
-        app: './public/frontend-app/main.js',
+        scripts: './public/frontend-app/main.js',
         styles: './public/scss/main.scss'
     },
     output: {
@@ -55,7 +66,12 @@ var config = {
         new webpack.optimize.UglifyJsPlugin({
           compress: { warnings: false }
         }),
-        new UnminifiedWebpackPlugin()
+        new UnminifiedWebpackPlugin(),
+
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendors',
+            minChunks: isInDirectory('node_modules')
+        })
     ],
     sassLoader: {
         includePaths: [path.resolve(__dirname, "./public/scss")]
