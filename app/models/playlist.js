@@ -3,7 +3,7 @@ const mongoose = require('mongoose'),
 
 const Playlist = mongoose.model('Playlist', {
     name: String,
-    content: Array
+    content: Array 
 });
 
 module.exports = Playlist;
