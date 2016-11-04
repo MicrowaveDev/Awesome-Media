@@ -2,6 +2,7 @@ const vkController = require('./controllers/vk');
 const mediaController = require('./controllers/media');
 const commonController = require('./controllers/common');
 const usersController = require('./controllers/users');
+const playlistsController = require('./controllers/playlists');
 
 module.exports = function(app){
 
@@ -16,7 +17,7 @@ module.exports = function(app){
     app.post("/api/auth", usersController.auth);
     app.get("/api/current_user", commonController.currentUser);
 
-    app.get("/api/media", mediaController.getMedia);
+    app.get("/api/media", mediaController.getMedia, playlistsController.openList);
     app.post("/api/media", mediaController.postMedia);
     app.post('/api/media-upload', commonController.prepareTestUser, mediaController.uploadMedia);
 
