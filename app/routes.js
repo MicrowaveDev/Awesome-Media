@@ -18,7 +18,9 @@ module.exports = function(app){
     app.get("/api/current_user", commonController.currentUser);
 
     app.get("/api/playlists",  playlistsController.openList);
+    app.get("/api/get_playlist", playlistsController.getList);
     app.post("/api/playlists", playlistsController.createList);
+    app.delete("/api/playlists", playlistsController.deleteList);
 
     app.get("/api/media", mediaController.getMedia);
     app.post("/api/media", mediaController.postMedia);
