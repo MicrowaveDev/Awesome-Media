@@ -3,7 +3,9 @@ const mongoose = require('mongoose'),
 
 const Playlist = mongoose.model('Playlist', {
     name: String,
-    content: Array // there wiil be links to audios
+    medias: [new mongoose.Schema({
+        id: String
+    })]
 });
 
 module.exports = Playlist;

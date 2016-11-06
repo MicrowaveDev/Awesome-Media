@@ -17,9 +17,12 @@ module.exports = function(app){
     app.post("/api/auth", usersController.auth);
     app.get("/api/current_user", commonController.currentUser);
 
-    app.get("/api/media", mediaController.getMedia, playlistsController.openList);
+    app.get("/api/playlists",  playlistsController.openList);
+    app.post("/api/playlists", playlistsController.createList);
+
+    app.get("/api/media", mediaController.getMedia);
     app.post("/api/media", mediaController.postMedia);
-    app.post('/api/media-upload', commonController.prepareTestUser, mediaController.uploadMedia);
+    app.post("/api/media-upload", commonController.prepareTestUser, mediaController.uploadMedia);
 
 
     // app.get('/api/test_env', function(req, res){
