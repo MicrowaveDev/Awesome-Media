@@ -17,10 +17,11 @@ module.exports = function(app){
     app.post("/api/auth", usersController.auth);
     app.get("/api/current_user", commonController.currentUser);
 
-    app.get("/api/playlists",  playlistsController.openList);
+    app.get("/api/playlists",  playlistsController.openLists);
     app.get("/api/get_playlist", playlistsController.getList);
     app.post("/api/playlists", playlistsController.createList);
     app.delete("/api/playlists", playlistsController.deleteList);
+    //TODO: create routes for getting user's playlists
 
     app.get("/api/media", mediaController.getMedia);
     app.post("/api/media", mediaController.postMedia);

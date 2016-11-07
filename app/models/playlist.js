@@ -3,8 +3,10 @@ const mongoose = require('mongoose'),
 
 const Playlist = mongoose.model('Playlist', {
     name: String,
+    user_id: String,
     medias: [new mongoose.Schema({
-        id: String
+        id: String,
+        number: Number
     })]
 });
 

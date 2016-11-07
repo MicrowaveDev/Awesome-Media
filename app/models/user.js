@@ -21,7 +21,12 @@ const User = mongoose.model('User', {
         number: Number,
         plays_count: Number,
         source: String
-    })]
+    })],
+
+    lists: [{
+        name: String,
+        id: String
+    }]
 });
 
 module.exports = User;

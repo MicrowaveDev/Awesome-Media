@@ -1,16 +1,13 @@
 const Playlist = require('../models/playlist');
 const apiHelper = require('../helpers/api');
+"use strict";
 
 module.exports = {
-    openList: function (req, res) {
-        "use strict";
-
+    openLists: function (req, res) {
         return Playlist.find(apiHelper.APIResponse(res));
     },
 
     createList: function (req, res) {
-        "use strict";
-
         if (!(req.body.name || req.body.medias)) {
             apiHelper.handleError(res, "Invalid name input", "Must provide a name of a list and list.", 400);
             return;
@@ -20,22 +17,18 @@ module.exports = {
     },
 
     getList: function (req, res) {
-        "use strict";
-
-        if (!req.body.name) {
+        if (!req.body.id) {
             apiHelper.handleError(res, "Invalid name input", "Must provide a name of a list", 400);
             return;
         }
-        Playlist.find({name: req.body.name}, apiHelper.APIResponse(res));
+        Playlist.find({_id: req.body.id}, apiHelper.APIResponse(res));
     },
     
     deleteList: function (req, res) {
-        "use strict";
-
-        if (!req.body.name) {
-            apiHelper.handleError(res, "Invalid name input", "Must provide a name of a list", 400);
+        if (!req.body.id) {
+            apiHelper.handleError(res, "Invalid id input", "Must provide a id of a list", 400);
             return;
         }
-        Playlist.find({name: req.body.name}).remove();
-    }
+        Playlist.find({_id: req.body.id}).remove();
+    },
 };
