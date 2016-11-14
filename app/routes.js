@@ -4,8 +4,6 @@ const commonController = require('./controllers/common');
 const usersController = require('./controllers/users');
 const playlistsController = require('./controllers/playlists');
 
-const setDynamicRoutes = require('./helpers/dynam_routes');
-
 module.exports = function(app){
 
     app.get("/api/vk_callback_auth", vkController.vkCallbackAuth);
@@ -21,8 +19,8 @@ module.exports = function(app){
 
     app.get("/api/playlists",  playlistsController.openLists);
     app.post("/api/playlist", playlistsController.createList);
-    app.delete("/api/playlists", playlistsController.deleteList);
-    setDynamicRoutes(app, playlistsController.getList);
+    app.delete("/api/playlist:id", playlistsController.deleteList);
+    app.get("/api/playlist:id", playlistsController.getList);
 
     app.get("/api/media", mediaController.getMedia);
     app.post("/api/media", mediaController.postMedia);

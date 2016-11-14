@@ -1,6 +1,5 @@
 const mongoose = require('mongoose'),
-    Types = mongoose.Schema.Types,
-    Playlist = require('./playlist');
+    Types = mongoose.Schema.Types;
 
 const User = mongoose.model('User', {
     login: String,
@@ -24,7 +23,14 @@ const User = mongoose.model('User', {
         source: String
     })],
 
-    lists: [Playlist]
+    playlists: [new mongoose.Schema({
+        name: String,
+        user_id: String,
+        medias: [new mongoose.Schema({
+            media_id: Types.ObjectId,
+            number: Number
+        })]
+    })]
 });
 
 module.exports = User;

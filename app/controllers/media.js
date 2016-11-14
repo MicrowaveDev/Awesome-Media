@@ -12,6 +12,8 @@ const upload = multer(config.multer_options).single('file');
 
 module.exports = {
     getMedia: function(req, res) {
+        let sortedMedia;
+
         if(!req.session.user_id){
             apiHelper.handleError(res, "Invalid session", "You are not auth.", 400);
             return;
@@ -20,18 +22,14 @@ module.exports = {
         User.findOne({_id: req.session.user_id}, function(err, user){
             if(user)
                 Media.find({ _id: { "$in" : user.medias ? user.medias.map((user_media) => user_media.media_id) : [] } }, function(err, docs){
-                    let userSortedMediaIds = _(user.medias).orderBy(['number'], ['desc']).map((user_media) => user_media.media_id.toString()).value();
-
-                    let sortedMedia = _.orderBy(docs, (media) => {
-                        return userSortedMediaIds.indexOf(media._id.toString());
-                    }, ['asc']);
-
+                    let sortedMedia = apiHelper.getOrderedCollection(user.medias, docs);
                     apiHelper.APIResponse(res)(err, sortedMedia);
                 });
             else
                 apiHelper.handleError(res, "Invalid user", "User not found.", 400);
         });
     },
+
     getMediaFiles: function(req, res) {
         const media_options = req.app.locals.media_options;
         fs.readdir(media_options.absolute_path, function(err, items) {
@@ -84,6 +82,7 @@ module.exports = {
 
         });
     },
+
     postMedia: function(req, res) {
         if (!(req.body.name || req.body.path)) {
             apiHelper.handleError(res, "Invalid user input", "Must provide a first or last name.", 400);
