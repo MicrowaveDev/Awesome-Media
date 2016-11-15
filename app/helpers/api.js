@@ -29,10 +29,10 @@ module.exports = {
         return response;
     },
 
-    getOrderedCollection: function (collection, docs) {
+    getOrderedCollection: function (user_medias, media_list) {
 
-        let userSortedMediaIds = _(collection).orderBy(['number'], ['desc']).map((elem) => elem.media_id.toString()).value();
-        let sortedMedia = _.orderBy(docs, (media) => {
+        let userSortedMediaIds = _(user_medias).orderBy(['number'], ['desc']).map((elem) => elem.media_id.toString()).value();
+        let sortedMedia = _.orderBy(media_list, (media) => {
             return userSortedMediaIds.indexOf(media._id.toString());
         },['asc']);
 

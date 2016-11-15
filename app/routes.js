@@ -19,8 +19,8 @@ module.exports = function(app){
 
     app.get("/api/playlists",  playlistsController.openLists);
     app.post("/api/playlist", playlistsController.createList);
-    app.delete("/api/playlist:id", playlistsController.deleteList);
-    app.get("/api/playlist:id", playlistsController.getList);
+    app.delete("/api/playlist/:id", playlistsController.deleteList);
+    app.get("/api/playlist/:id", playlistsController.getList);
 
     app.get("/api/media", mediaController.getMedia);
     app.post("/api/media", mediaController.postMedia);
