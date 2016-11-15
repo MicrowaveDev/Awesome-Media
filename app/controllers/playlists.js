@@ -5,12 +5,12 @@ const User = require('../models/user');
 module.exports = {
 
     openLists: function (req, res) {
-        User.findOne({ _id: req.session.user_id }, function (err, user) {
+        /*User.findOne({ _id: req.session.user_id }, function (err, user) {
             if (err) {
                 apiHelper.handleError(res, "Invalid user", "User not found", 400);
             }
             let playlists = user.playlists;
-        });
+        });*/
     },
 
     createList: function (req, res) {
@@ -23,6 +23,10 @@ module.exports = {
                 apiHelper.handleError(res, "Invalid user", "User not found", 400);
             }
             let playlist = user.playlists.id(req.params.id);
+            if (playlist) {
+                let sortedMedias = apiHelper.getOrderedCollection(user.medias, playlist.medias);
+                apiHelper.APIResponse(sortedMedias);
+            }
         });
     },
 

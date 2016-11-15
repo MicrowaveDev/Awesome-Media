@@ -26,7 +26,6 @@ module.exports = {
                     apiHelper.APIResponse(res)(err, sortedMedia);
                 });
             }
-
             else
                 apiHelper.handleError(res, "Invalid user", "User not found.", 400);
         });
