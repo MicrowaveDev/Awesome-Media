@@ -1,11 +1,10 @@
 const apiHelper = require('../helpers/api');
 const User = require('../models/user');
-"use strict";
 
 module.exports = {
 
     openLists: function (req, res) {
-        
+
     },
 
     createList: function (req, res) {
