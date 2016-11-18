@@ -21,10 +21,7 @@ module.exports = {
 
         User.findOne({_id: req.session.user_id}, function(err, user){
             if(user) {
-                apiHelper.getUsersMedias(user, Media, function (err, docs) {
-                    let sortedMedia = apiHelper.getOrderedCollection(user.medias, docs);
-                    apiHelper.APIResponse(res)(err, sortedMedia);
-                });
+                apiHelper.getSortedMedia(user.medias, apiHelper.APIResponse(res));
             }
             else
                 apiHelper.handleError(res, "Invalid user", "User not found.", 400);

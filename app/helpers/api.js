@@ -27,18 +27,5 @@ module.exports = {
         if(err)
             console.log(response);
         return response;
-    },
-
-    getOrderedCollection: function (user_medias, media_list) {
-        let userSortedMediaIds = _(user_medias).orderBy(['number'], ['desc']).map((elem) => elem.media_id.toString()).value();
-        let sortedMedia = _.orderBy(media_list, (media) => {
-            return userSortedMediaIds.indexOf(media._id.toString());
-        },['asc']);
-        return sortedMedia;
-    },
-
-    getUsersMedias: function (user, mediaModel, callback) {
-        mediaModel.find({_id: {"$in": user.medias ? user.medias.map((user_media) => user_media.media_id) : []}}, callback);
     }
-
 };
