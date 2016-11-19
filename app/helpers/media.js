@@ -1,5 +1,7 @@
 const _ = require('lodash');
-const Media = require('../models/Media');
+
+const Media = require('../models/media');
+const User = require('../models/user');
 
 module.exports = {
     getSortedMedia: function (user_medias, callback) {
@@ -14,5 +16,9 @@ module.exports = {
 
             callback(err, sortedMedia);
         });
+    },
+
+    openUserSession: function (req, callback) {
+        User.findOne({_id: req.session.user_id}, callback);
     }
 }

@@ -3,6 +3,7 @@ const _ = require('lodash');
 const multer = require('multer');
 
 const apiHelper = require('../helpers/api');
+const mediaHelper = require('../helpers/media');
 const filesHelper = require('../helpers/files');
 const Media = require("../models/media");
 const User = require("../models/user");
@@ -19,9 +20,9 @@ module.exports = {
             return;
         }
 
-        User.findOne({_id: req.session.user_id}, function(err, user){
+        mediaHelper.openUserSession(req, function(err, user){
             if(user)
-                apiHelper.getSortedMedia(user.medias, apiHelper.APIResponse(res));
+                mediaHelper.getSortedMedia(user.medias, apiHelper.APIResponse(res));
 
             else
                 apiHelper.handleError(res, "Invalid user", "User not found.", 400);
