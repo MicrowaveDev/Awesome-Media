@@ -13,20 +13,15 @@ const upload = multer(config.multer_options).single('file');
 
 module.exports = {
     getMedia: function(req, res) {
-        let sortedMedia;
-
         if(!req.session.user_id){
             apiHelper.handleError(res, "Invalid session", "You are not auth.", 400);
             return;
         }
 
-        mediaHelper.openUserSession(req, function(err, user){
-            if(user)
-                mediaHelper.getSortedMedia(user.medias, apiHelper.APIResponse(res));
-
-            else
-                apiHelper.handleError(res, "Invalid user", "User not found.", 400);
-        });
+        if(res.locals.current_user)
+            mediaHelper.getSortedMedia(res.locals.current_user.medias, apiHelper.APIResponse(res));
+        else
+            apiHelper.handleError(res, "Invalid user", "User not found.", 400);
     },
 
     getMediaFiles: function(req, res) {
@@ -90,5 +85,6 @@ module.exports = {
 
         let newMedia = new Media(req.body);
         newMedia.save(apiHelper.APIResponse(res));
-    }
+    },
+
 };

@@ -1,5 +1,7 @@
 const _ = require('lodash');
 
+const User = require('../models/user');
+
 module.exports = {
     // Generic error handler used by all endpoints.
     handleError: function (res, reason, message, code) {
@@ -27,5 +29,13 @@ module.exports = {
         if(err)
             console.log(response);
         return response;
+    },
+
+    getCurrentUser: function (req, res, next) {
+        User.findOne({_id: req.session.user_id}, function (err, user) {
+            res.locals.current_user = user;
+            res.locals.err = err;
+            next();
+        });
     }
 };

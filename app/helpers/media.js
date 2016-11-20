@@ -16,9 +16,5 @@ module.exports = {
 
             callback(err, sortedMedia);
         });
-    },
-
-    openUserSession: function (req, callback) {
-        User.findOne({_id: req.session.user_id}, callback);
     }
 }

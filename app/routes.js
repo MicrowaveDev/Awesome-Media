@@ -4,6 +4,8 @@ const commonController = require('./controllers/common');
 const usersController = require('./controllers/users');
 const playlistsController = require('./controllers/playlists');
 
+const apiHelper = require('./helpers/api');
+
 module.exports = function(app){
 
     app.get("/api/vk_callback_auth", vkController.vkCallbackAuth);
@@ -17,12 +19,12 @@ module.exports = function(app){
     app.post("/api/auth", usersController.auth);
     app.get("/api/current_user", commonController.currentUser);
 
-    app.get("/api/playlists",  playlistsController.openLists);
-    app.post("/api/playlist", playlistsController.createList);
-    app.delete("/api/playlist/:id", playlistsController.deleteList);
-    app.get("/api/playlist/:id", playlistsController.getList);
+    app.get("/api/playlists", apiHelper.getCurrentUser, playlistsController.openLists);
+    app.post("/api/playlist", apiHelper.getCurrentUser, playlistsController.createList);
+    app.delete("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.deleteList);
+    app.get("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.getList);
 
-    app.get("/api/media", mediaController.getMedia);
+    app.get("/api/media", apiHelper.getCurrentUser, mediaController.getMedia);
     app.post("/api/media", mediaController.postMedia);
     app.post("/api/media-upload", commonController.prepareTestUser, mediaController.uploadMedia);
 
