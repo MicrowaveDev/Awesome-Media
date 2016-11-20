@@ -38,8 +38,9 @@ module.exports = {
 
         if (res.locals.err) {
             apiHelper.handleError(res, "Invalid user", "User not found", 400);
+            return;
         }
-        playlist = res.current_user.playlists.id(req.params.id);
+        playlist = res.locals.current_user.playlists.id(req.params.id);
         if (playlist) {
             mediaHelper.getSortedMedia(playlist.medias, apiHelper.APIResponse(res));
         } else {
@@ -50,9 +51,10 @@ module.exports = {
     deleteList: function (req, res) {
         if (res.locals.err) {
             apiHelper.handleError(res, "Invalid user", "User not found", 400);
+            return;
         }
         res.locals.current_user.playlists.id(req.params.id).remove();
-        res.locals.current.user.save(function (err) {
+        res.locals.current_user.save(function (err) {
             if (err) {
                 apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200);
             }
@@ -64,6 +66,7 @@ module.exports = {
 
         if (res.locals.err) {
             apiHelper.handleError(res, "Invalid user", "User not found", 400);
+            return;
         }
         playlist = res.locals.current_user.id(req.params.id);
         playlist.medias.push({
