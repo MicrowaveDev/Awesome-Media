@@ -32,7 +32,7 @@ module.exports = {
     },
 
     getCurrentUser: function (req, res, next) {
-        User.findOne({_id: req.session.user_id}, function (err, user) {
+        User.findOne({ _id: req.session.user_id }, function (err, user) {
             res.locals.current_user = user;
             res.locals.err = err;
             next();
