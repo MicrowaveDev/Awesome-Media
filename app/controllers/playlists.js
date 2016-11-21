@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 module.exports = {
 
-    openLists: function (req, res) {
+    getNamesOfLists: function (req, res) {
         apiHelper.APIResponse(res)(err, res.locals.current_user.playlists);
     },
 
@@ -53,6 +53,15 @@ module.exports = {
         playlist.medias.push({
             number: ++playlist.medias.length,
             media_id: req.body.media_id
-        })
+        });
+    },
+    
+    removeMedia: function (req, res) {
+        let playlist;
+
+        playlist = res.locals.current_user.id(req.params.id);
+        playlist.deleteOne({
+            media_id: req.body.media_id
+        });
     }
 };
