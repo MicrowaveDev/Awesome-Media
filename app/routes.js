@@ -24,7 +24,7 @@ module.exports = function(app){
     app.delete("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.deleteList);
     app.get("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.getList);
     app.post("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.addMedia);
-    app.delete("/api/playlist/media/:id". apiHelper.getCurrentUser, playlistsController.removeMedia);
+    app.delete("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.removeMedia);
 
 
     app.get("/api/media", apiHelper.getCurrentUser, mediaController.getMedia);

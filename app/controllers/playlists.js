@@ -27,9 +27,7 @@ module.exports = {
     },
 
     getList: function (req, res) {
-        let playlist;
-
-        playlist = res.locals.current_user.playlists.id(req.params.id);
+        let playlist = res.locals.current_user.playlists.id(req.params.id);
         if (playlist) {
             mediaHelper.getSortedMedia(playlist.medias, apiHelper.APIResponse(res));
         } else {
@@ -47,9 +45,7 @@ module.exports = {
     },
 
     addMedia: function (req, res) {
-        let playlist;
-
-        playlist = res.locals.current_user.id(req.params.id);
+        let playlist = res.locals.current_user.id(req.params.id);
         playlist.medias.push({
             number: ++playlist.medias.length,
             media_id: req.body.media_id
@@ -57,9 +53,7 @@ module.exports = {
     },
     
     removeMedia: function (req, res) {
-        let playlist;
-
-        playlist = res.locals.current_user.id(req.params.id);
+        let playlist = res.locals.current_user.playlist.id(req.params.id);
         playlist.deleteOne({
             media_id: req.body.media_id
         });

@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const User = require('../models/user');
 
-module.exports = {
+let apiHelper = {
     // Generic error handler used by all endpoints.
     handleError: function (res, reason, message, code) {
         console.log('handleError', message, reason);
@@ -41,6 +41,8 @@ module.exports = {
             res.locals.current_user = user;
             res.locals.err = err;
             next();
-        });
+        }.bind(apiHelper));
     }
-};
+}
+
+module.exports = apiHelper;
