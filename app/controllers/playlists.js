@@ -5,8 +5,8 @@ const User = require('../models/user');
 
 module.exports = {
 
-    getNamesOfLists: function (req, res) {
-        apiHelper.APIResponse(res)(err, res.locals.current_user.playlists);
+    getLists: function (req, res) {
+        apiHelper.APIResponse(res)(null, res.locals.current_user.playlists);
     },
 
     createList: function (req, res) {
@@ -45,17 +45,44 @@ module.exports = {
     },
 
     addMedia: function (req, res) {
-        let playlist = res.locals.current_user.id(req.params.id);
-        playlist.medias.push({
-            number: ++playlist.medias.length,
-            media_id: req.body.media_id
-        });
+        let playlist = res.locals.current_user.playlists.id(req.params.id);
+        if (playlist) {
+            playlist.medias.push({
+                media_id: req.body.media_id,
+                number: playlist.medias.length + 1
+            });
+            res.locals.current_user.save(function (err) {
+                if (err) {
+                    apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200)
+                }
+            });
+        } else {
+            apiHelper.handleError(res, "Invalid playlist", "Playlist not found.", 400);
+            return;
+        }
     },
     
     removeMedia: function (req, res) {
-        let playlist = res.locals.current_user.playlist.id(req.params.id);
-        playlist.deleteOne({
-            media_id: req.body.media_id
-        });
+        let playlist = res.locals.current_user.playlists.id(req.params.id);
+        let mediaId;
+        if (playlist) {
+            mediaId = playlist.medias.find(function (elem_media)  {
+                return elem_media.media_id === req.body.media_id;
+            });
+            if (!(~mediaId)) {
+                apiHelper.handleError(res, "Invalid media", "Media not found");
+                return;
+            } else {
+                playlist.medias.splice(mediaId, 1);
+            }
+            res.locals.current_user.save(function (err) {
+                if (err) {
+                    apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200)
+                }
+            });
+        } else {
+            apiHelper.handleError(res, "Invalid playlist", "Playlist not found.", 400);
+            return;
+        }
     }
 };

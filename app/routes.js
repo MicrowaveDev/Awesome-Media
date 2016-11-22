@@ -19,7 +19,7 @@ module.exports = function(app){
     app.post("/api/auth", usersController.auth);
     app.get("/api/current_user", commonController.currentUser);
 
-    app.get("/api/playlists", apiHelper.getCurrentUser, playlistsController.getNamesOfLists);
+    app.get("/api/playlists", apiHelper.getCurrentUser, playlistsController.getLists);
     app.post("/api/playlist", apiHelper.getCurrentUser, playlistsController.createList);
     app.delete("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.deleteList);
     app.get("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.getList);
