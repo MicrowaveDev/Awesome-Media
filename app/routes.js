@@ -23,6 +23,7 @@ module.exports = function(app){
     app.post("/api/playlist", apiHelper.getCurrentUser, playlistsController.createList);
     app.delete("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.deleteList);
     app.get("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.getList);
+    app.put("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.updateList);
     app.post("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.addMedia);
     app.delete("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.removeMedia);
 

@@ -82,5 +82,19 @@ module.exports = {
             }
         });
 
+    },
+
+    updateList: function (req, res) {
+        let playlist = res.locals.current_user.playlists.id(req.params.id);
+        if (!playlist) {
+            apiHelper.handleError(res, "Invalid playlist", "Playlist not found.", 400);
+        }
+        playlist.name = req.body.name || playlist.name;
+        playlist.media = req.body.media || playlist.media;
+        res.locals.current_user.save(function (err) {
+            if (err) {
+                apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200)
+            }
+        })
     }
 };
