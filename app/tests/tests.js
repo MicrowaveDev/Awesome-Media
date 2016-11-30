@@ -22,15 +22,19 @@ describe('Routes', function () {
         before(function () {
             User.find({}, function (err, docs) {
                 if (docs && docs.length) {
-
+                    //give me the connect.sid
                 }
             })
         })
 
-        let url = "http://localhost:3007/api/playlists";
+        let opts = {
+            url: "http://localhost:3007/api/playlists"
+        };
+
         it("Should return playlists", function (done) {
-            request(url, (err, res, body) => {
+            request(opts, (err, res, body) => {
                 expect(res.statusCode).to.equal(200); //but it equals 400!!! user not found!!
+                console.log(body);
                 done();
             })
         });
