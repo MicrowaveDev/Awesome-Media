@@ -30,10 +30,12 @@ describe('Routes', function () {
         let opts = {
             url: "http://localhost:3007/api/playlists"
         };
+        let id = "s:3MGdWbUNfrN7cyAyTcfDGLDL5IEqjwpk.BzuM2UW16FWOGJfD70EP+hw4Jss9/rcc6ovmpKZNQg4" //example id that I need
 
         it("Should return playlists", function (done) {
+            request.cookie(`connect.sid=${id}`);
             request(opts, (err, res, body) => {
-                expect(res.statusCode).to.equal(200); //but it equals 400!!! user not found!!
+                expect(res.statusCode).to.equal(200); //it works only when I copied connect.sid from a browser
                 console.log(body);
                 done();
             })
