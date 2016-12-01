@@ -35,7 +35,7 @@ describe('Routes', function () {
                 user_id = doc._id;
             })
         });
-        
+
         afterEach('Remove test user', function () {
             User.remove({_id: user_id}, function (err) {
                 if (err) {
