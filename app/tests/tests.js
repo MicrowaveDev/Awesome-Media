@@ -12,29 +12,16 @@ const User = require('./../models/user');
 const root = "http://localhost";
 
 const apiHelper = require('./../helpers/api');
-const commonController = require('./../controllers/common');
+const commonHelper = require('./../helpers/common');
 
 let sessionId;
 let user_id;
 let port = 3007;
 
-function cryptPassword(pass) {
-    const md5sum = crypto.createHash('md5');
-    md5sum.update(pass);
-    pass = md5sum.digest('hex');
-    return pass;
-}
 
-request(`${root}:${port}`)
-    .get('/api/users').expect(200).end( (err, res) => {
-    if (err) {
-        return console.log(err);
-    }
-    sessionId = res.headers['set-cookie'].pop().split(';')[0];
-}); //simple getting session id
 
 describe('Routes', function () {
-    this.timeout(360000000); //for debug
+    this.timeout(360000000);
 
     before('Open  connection to the DB', function (done) {
         mongoose.connect('mongodb://localhost/awesome_media', done);
@@ -42,10 +29,10 @@ describe('Routes', function () {
 
     describe('Get lists', function () {
 
-        beforeEach('Creates test user', function (done) {
+        before('Creates test user', function (done) {
             let user = new User({
                 login: 'Test',
-                password: cryptPassword('Password'), //cause need in auth-handler
+                password: commonHelper.cryptPassword('Password'),
                 first_name: 'FirstName',
                 last_name: 'LastName',
                 vk: {}
@@ -59,7 +46,7 @@ describe('Routes', function () {
             })
         });
 
-        afterEach('Remove test user', function (done) {
+        after('Remove test user', function (done) {
             User.remove({_id: user_id}, function (err) {
                 if (err) {
                     done(err);
@@ -68,21 +55,38 @@ describe('Routes', function () {
             })
         });
 
-        it('Should auth test user', function (done) {
+        it('Should auth test user, POST/api/auth', function (done) {
             let req = request(`${root}:${port}`).post('/api/auth');
-            req.cookies = sessionId;
             req.send({
                 login: 'Test',
                 password: 'Password'
-            }).end( (err, res) => {
-                if (err) {
-                    done(err);
-                }
-                done();
+            }).expect(200)
+                .end( (err, res) => {
+                    if (err) {
+                        done(err);
+                    }
+                    sessionId = res.headers['set-cookie'].pop().split(';')[0];
+                    done();
             })
         });
 
-        it("Should return playlists", function (done) {
+        it('Should create playlist, POST/api/playlist', function (done) {
+            let req = request(`${root}:${port}`).post('/api/playlist');
+            req.cookies = sessionId;
+            req.send({
+                name: 'Test_playlist',
+                medias: []
+            }).expect(200)
+                .end( (err, res) => {
+                    if (err) {
+                        done(err);
+                    }
+                    done();
+            });
+
+        });
+
+        it('Should return playlists, GET/api/playlists', function (done) {
             let req = request(`${root}:${port}`).get('/api/playlists');
             req.cookies = sessionId;
             req.set('Accept', 'application/json')

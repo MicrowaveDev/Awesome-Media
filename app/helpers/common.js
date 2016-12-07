@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const crypto = require('crypto');
 
 module.exports = {
     hasProperties: function(object, propsArray){
@@ -9,5 +10,11 @@ module.exports = {
     },
     getExtension: function(file_name){
         return _.first(_.last(file_name.split('.')).split('?'));
+    },
+    cryptPassword: function(pass) {
+        const md5sum = crypto.createHash('md5');
+        md5sum.update(pass);
+        pass = md5sum.digest('hex');
+        return pass;
     }
 };
