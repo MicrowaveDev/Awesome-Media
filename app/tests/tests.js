@@ -15,7 +15,7 @@ const apiHelper = require('./../helpers/api');
 const commonHelper = require('./../helpers/common');
 
 let sessionId;
-let user_id;
+let userId;
 let port = 3007;
 
 
@@ -41,13 +41,13 @@ describe('Routes', function () {
                 if (err) {
                     return console.log(err);
                 }
-                user_id = doc._id;
+                userId = doc._id;
                 done();
             })
         });
 
         after('Remove test user', function (done) {
-            User.remove({_id: user_id}, function (err) {
+            User.remove({_id: userId}, function (err) {
                 if (err) {
                     done(err);
                 }
@@ -70,35 +70,41 @@ describe('Routes', function () {
             })
         });
 
-        it('Should create playlist, POST/api/playlist', function (done) {
-            let req = request(`${root}:${port}`).post('/api/playlist');
-            req.cookies = sessionId;
-            req.send({
-                name: 'Test_playlist',
-                medias: []
-            }).expect(200)
-                .end( (err, res) => {
-                    if (err) {
-                        done(err);
-                    }
-                    done();
+        describe('Test creating playlist', function () {
+            let testName = "Test_playlist";
+            let testMedias = [];
+            
+            it('Should create playlist, POST/api/playlist', function (done) {
+                let req = request(`${root}:${port}`).post('/api/playlist');
+                req.cookies = sessionId;
+                req.send({
+                    name: testName,
+                    medias: testMedias
+                }).expect(200)
+                    .end( (err, res) => {
+                        if (err) {
+                            done(err);
+                        }
+                        done();
+                    });
             });
 
-        });
-
-        it('Should return playlists, GET/api/playlists', function (done) {
-            let req = request(`${root}:${port}`).get('/api/playlists');
-            req.cookies = sessionId;
-            req.set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .end( (err, res) => {
-                    if (err) {
-                        done(err);
-                    }
-                    expect(res.body).to.be.a('array');
-                    done();
-                });
-        });
+            it('Should return created playlists, GET/api/playlists', function (done) {
+                let req = request(`${root}:${port}`).get('/api/playlists');
+                req.cookies = sessionId;
+                req.set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end( (err, res) => {
+                        if (err) {
+                            done(err);
+                        }
+                        expect(res.body).to.be.a('array');
+                        expect(res.body[0].name).to.equal(testName);
+                        expect(!!(_.difference(res.body[0].medias, testMedias))).to.equal(true);
+                        done();
+                    });
+            });
+        })
     });
 });
