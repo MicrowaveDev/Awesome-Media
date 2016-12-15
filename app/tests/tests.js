@@ -7,6 +7,7 @@ const request = require('supertest');
 const expect = require('chai').expect;
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const fs = require('fs');
 
 const User = require('./../models/user');
 const root = "http://localhost";
@@ -18,8 +19,6 @@ let sessionId;
 let userId;
 let port = 3007;
 
-
-
 describe('Routes', function () {
     this.timeout(360000000);
 
@@ -27,7 +26,7 @@ describe('Routes', function () {
         mongoose.connect('mongodb://localhost/awesome_media', done);
     });
 
-    describe('Get lists', function () {
+    describe('Tests', function () {
 
         before('Creates test user', function (done) {
             let user = new User({
@@ -70,12 +69,28 @@ describe('Routes', function () {
             })
         });
 
-        describe('Test creating playlist', function () {
+        describe('Test sending and getting medias', function () {
+            it('Should send audio', function (done) {
+                let req = request(`${root}:${port}`).post('/api/media-upload');
+                req.cookies = sessionId;
+                req.write(fs.readFileSync('./medias/asammuell - заметался пожар голубой (С. Есенин).mp3')) //test-audio
+                    .expect(200)
+                    .end( (err, res) => {
+                        if (err) {
+                            done(err)
+                        }
+                    });
+            });
+        });
+
+        /*describe('Test creating playlist and removing', function () {
             let testName = "Test_playlist";
             let testMedias = [];
+            let playlistId;
+
             
             it('Should create playlist, POST/api/playlist', function (done) {
-                let req = request(`${root}:${port}`).post('/api/playlist');
+                let req = request(`${root}:${port}`).post('/api/playlist/');
                 req.cookies = sessionId;
                 req.send({
                     name: testName,
@@ -89,8 +104,8 @@ describe('Routes', function () {
                     });
             });
 
-            it('Should return created playlists, GET/api/playlists', function (done) {
-                let req = request(`${root}:${port}`).get('/api/playlists');
+            it('Should return created playlist, GET/api/playlist/:id', function (done) {
+                let req = request(`${root}:${port}`).get(`/api/playlist/:${playlistId}`);
                 req.cookies = sessionId;
                 req.set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
@@ -101,10 +116,10 @@ describe('Routes', function () {
                         }
                         expect(res.body).to.be.a('array');
                         expect(res.body[0].name).to.equal(testName);
-                        expect(!!(_.difference(res.body[0].medias, testMedias))).to.equal(true);
+                        expect(_.difference(res.body.medias, testMedias).length).to.equal(0);
                         done();
                     });
             });
-        })
+        });*/
     });
 });

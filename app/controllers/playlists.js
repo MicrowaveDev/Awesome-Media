@@ -18,13 +18,13 @@ module.exports = {
             name: req.body.name,
             user_id: req.session.user_id,
             medias: req.body.medias
-        })
-        res.locals.current_user.save(function (err) {
+        });
+        res.locals.current_user.save(function (err, user) {
             if (err) {
-                apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200)
+                return apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200);
             }
+            mediaHelper.getSortedMedia(user.playlists[user.playlists.length - 1].medias, apiHelper.APIResponse(res))
         })
-        apiHelper.APIResponse(res)();
     },
 
     getList: function (req, res) {
@@ -84,9 +84,9 @@ module.exports = {
         _.extend(playlist, req.body);
         res.locals.current_user.save(function (err) {
             if (err) {
-                apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200)
+                return apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200);
             }
+            mediaHelper.getSortedMedia(playlist.medias, apiHelper.APIResponse(res));
         })
-        apiHelper.APIResponse(res)();
     }
 };
