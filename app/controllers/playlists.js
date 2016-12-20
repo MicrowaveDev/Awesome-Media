@@ -23,7 +23,7 @@ module.exports = {
             if (err) {
                 return apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200);
             }
-            mediaHelper.getSortedMedia(user.playlists[user.playlists.length - 1].medias, apiHelper.APIResponse(res))
+            apiHelper.APIResponse(res)(err, user.playlists[user.playlists.length - 1]);
         })
     },
 
@@ -32,7 +32,7 @@ module.exports = {
         if (!playlist) {
             return apiHelper.handleError(res, "Invalid playlist", "Playlist not found.", 400);
         }
-        mediaHelper.getSortedMedia(playlist.medias, apiHelper.APIResponse(res));
+        apiHelper.APIResponse(res)(null, playlist);
     },
 
     deleteList: function (req, res) {
