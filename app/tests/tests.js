@@ -25,6 +25,12 @@ let audioPath = `${__dirname}/medias/${audioName}`;
 let audioId;
 let playlist;
 
+function sendRequest(method, uri, cookies) {
+    let req = request(`${root}:${port}`)[method](uri);
+    req.cookies = cookies;
+    return req;
+};
+
 describe('Routes', function () {
     this.timeout(360000000);
 
@@ -61,7 +67,7 @@ describe('Routes', function () {
         });
 
         it('Should auth test user, POST/api/auth', function (done) {
-            let req = request(`${root}:${port}`).post('/api/auth');
+            let req = sendRequest('post', '/api/auth');
             req.set('Content-Type', 'application/json')
                 .send({
                 login: 'Test',
@@ -78,9 +84,8 @@ describe('Routes', function () {
 
         describe('Test sending and getting medias', function () {
 
-            it('Should send audio', function (done) {
-                let req = request(`${root}:${port}`).post('/api/media-upload');
-                req.cookies = sessionId;
+            it('Should send audio, POST/api/media-upload', function (done) {
+                let req = sendRequest('post', '/api/media-upload', sessionId);
                 req.attach('file', audioPath)
                     .expect(200)
                     .end( (err, res) => {
@@ -91,9 +96,8 @@ describe('Routes', function () {
                     });
             });
 
-            it('Should get audio', function (done) {
-                let req = request(`${root}:${port}`).get('/api/media');
-                req.cookies = sessionId;
+            it('Should get audio GET/api/media', function (done) {
+                let req = sendRequest('get', '/api/media', sessionId)
                 req.expect(200)
                     .expect('Content-Type', /json/)
                     .end( (err, res) => {
@@ -114,9 +118,8 @@ describe('Routes', function () {
             let testName = "Test_playlist";
             let playlistId;
 
-            it('Should create playlist, POST/api/playlist', function (done) {
-                let req = request(`${root}:${port}`).post('/api/playlist/');
-                req.cookies = sessionId;
+            it('Should create playlist with test audio, POST/api/playlist', function (done) {
+                let req = sendRequest('post', '/api/playlist/', sessionId);
                 req.set('Content-Type', 'application/json')
                     .send({
                         name: testName,
@@ -135,10 +138,8 @@ describe('Routes', function () {
                     });
             });
 
-
             it('Should return created playlist, GET/api/playlist/:id', function (done) {
-                let req = request(`${root}:${port}`).get(`/api/playlist/${playlistId}`);
-                req.cookies = sessionId;
+                let req = sendRequest('get', `/api/playlist/${playlistId}`, sessionId);
                 req.set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
                     .expect(200)
@@ -151,6 +152,67 @@ describe('Routes', function () {
                         done();
                     });
             });
+
+            it('Should return all playlists, actually - one, GET/api/playlists', function (done) {
+                let req = sendRequest('get', '/api/playlists/', sessionId);
+                req.set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end( (err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body).to.be.a('array');
+                        expect(playlistId === res.body[0]._id).to.equal(true);
+                        done();
+                    });
+            });
+
+            it('Should update playlist, PUT/api/playlist/:id', function (done) {
+                let req = sendRequest('put', `/api/playlist/${playlistId}`, sessionId);
+                let updatedPartName = `updated_${testName}`;
+                req.set('Content-Type', 'application/json')
+                    .send({
+                        name: `${updatedPartName}`
+                    })
+                    .expect(200)
+                    .expect('Content-Type', /json/)
+                    .end( (err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body.name).to.equal(updatedPartName);
+                        done();
+                    })
+            });
+
+            it('Should delete test audio from playlist, DELETE/api/playlist/media/:id', function (done) {
+                let req = sendRequest('delete', `/api/playlist/media/${playlistId}`, sessionId);
+                req.expect(200)
+                    .send({
+                        id: audioId
+                    })
+                    .end( (err) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        done();
+                    });
+            });
+
+            it('Should add test audio again, POST/api/playlist/media/:id', function (done) {
+                let req = sendRequest('post', `/api/playlist/media/${playlistId}`, sessionId);
+                req.send({
+                    media_id: audioId
+                })
+                    .expect(200)
+                    .end( (err) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        done();
+                    })
+            })
         });
     });
 });

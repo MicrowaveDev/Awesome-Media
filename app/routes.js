@@ -16,7 +16,7 @@ module.exports = function(app){
 
     app.get("/api/users", usersController.list);
     app.post("/api/users", usersController.create);
-    app.post("/api/auth", usersController.auth);
+    app.post("/api/auth", usersController.auth); //tested
     app.get("/api/current_user", commonController.currentUser);
 
     app.get("/api/playlists", apiHelper.getCurrentUser, playlistsController.getLists);
@@ -28,9 +28,9 @@ module.exports = function(app){
     app.delete("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.removeMedia);
 
 
-    app.get("/api/media", apiHelper.getCurrentUser, mediaController.getMedia);
+    app.get("/api/media", apiHelper.getCurrentUser, mediaController.getMedia); //tested
     app.post("/api/media", mediaController.postMedia);
-    app.post("/api/media-upload", commonController.prepareTestUser, mediaController.uploadMedia);
+    app.post("/api/media-upload", commonController.prepareTestUser, mediaController.uploadMedia); //tested
 
 
     // app.get('/api/test_env', function(req, res){
