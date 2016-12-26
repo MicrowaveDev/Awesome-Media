@@ -14,18 +14,18 @@ module.exports = function(app){
     app.get("/api/vk_audio_list_test", vkController.vkAudioListTest);
     app.post("/api/vk_audio_sync", vkController.vkAudioSync);
 
-    app.get("/api/users", usersController.list);
-    app.post("/api/users", usersController.create);
+    app.get("/api/users", usersController.list); //tested
+    app.post("/api/users", usersController.create); //tested
     app.post("/api/auth", usersController.auth); //tested
-    app.get("/api/current_user", commonController.currentUser);
+    app.get("/api/current_user", commonController.currentUser); //tested
 
-    app.get("/api/playlists", apiHelper.getCurrentUser, playlistsController.getLists);
-    app.post("/api/playlist", apiHelper.getCurrentUser, playlistsController.createList);
-    app.delete("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.deleteList);
-    app.get("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.getList);
-    app.put("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.updateList);
-    app.post("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.addMedia);
-    app.delete("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.removeMedia);
+    app.get("/api/playlists", apiHelper.getCurrentUser, playlistsController.getLists); //tested
+    app.post("/api/playlist", apiHelper.getCurrentUser, playlistsController.createList); //tested
+    app.delete("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.deleteList); //tested
+    app.get("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.getList); //tested
+    app.put("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.updateList); //tested
+    app.post("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.addMedia); //tested
+    app.delete("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.removeMedia); //tested
 
 
     app.get("/api/media", apiHelper.getCurrentUser, mediaController.getMedia); //tested

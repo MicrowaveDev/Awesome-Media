@@ -39,7 +39,7 @@ module.exports = {
         res.locals.current_user.playlists.id(req.params.id).remove();
         res.locals.current_user.save(function (err) {
             if (err) {
-                apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200);
+                return apiHelper.handleError(res, "Invalid saving", "Params for saving is invalid", 200);
             }
         });
         apiHelper.APIResponse(res)();

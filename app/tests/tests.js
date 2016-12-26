@@ -20,16 +20,17 @@ let userId;
 let port = 3007;
 
 let audioName = 'test_audio.mp3'
-let audioType;
 let audioPath = `${__dirname}/medias/${audioName}`;
 let audioId;
 let playlist;
+let login = 'Test';
+let password = 'Password';
 
 function sendRequest(method, uri, cookies) {
     let req = request(`${root}:${port}`)[method](uri);
     req.cookies = cookies;
     return req;
-};
+}
 
 describe('Routes', function () {
     this.timeout(360000000);
@@ -42,8 +43,8 @@ describe('Routes', function () {
 
         before('Creates test user', function (done) {
             let user = new User({
-                login: 'Test',
-                password: commonHelper.cryptPassword('Password'),
+                login: login,
+                password: commonHelper.cryptPassword(password),
                 first_name: 'FirstName',
                 last_name: 'LastName',
                 vk: {}
@@ -70,16 +71,16 @@ describe('Routes', function () {
             let req = sendRequest('post', '/api/auth');
             req.set('Content-Type', 'application/json')
                 .send({
-                login: 'Test',
-                password: 'Password'
-            }).expect(200)
-                .end( (err, res) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    sessionId = res.headers['set-cookie'].pop().split(';')[0];
-                    done();
-            })
+                    login: login,
+                    password: password
+                }).expect(200)
+                    .end( (err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        sessionId = res.headers['set-cookie'].pop().split(';')[0];
+                        done();
+                    })
         });
 
         describe('Test sending and getting medias', function () {
@@ -111,6 +112,8 @@ describe('Routes', function () {
                         done();
                     });
             });
+
+            //TODO: POST/api/media
 
         });
 
@@ -212,7 +215,86 @@ describe('Routes', function () {
                         }
                         done();
                     })
-            })
+            });
+
+            it('Should remove playlist, DELETE/api/playlist/:id', function (done) {
+                let req = sendRequest('delete', `/api/playlist/${playlistId}`, sessionId);
+                req.expect(200)
+                    .end( (err) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        done();
+                    })
+            });
         });
+        
+        describe('Test getting users', function () {
+
+            let testLogin = 'so_login';
+            let testPass = 'so_password';
+
+            it('Should create test user, POST/api/users', function (done) {
+                let req = sendRequest('post', '/api/users', sessionId);
+                req.set('Content-Type', 'application/json')
+                    .send({
+                        login: testLogin,
+                        password: testPass
+                    }).expect(200)
+                    .expect('Content-Type', /json/)
+                    .end( (err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body.login).to.equal(testLogin);
+                        done();
+                    });
+            });
+
+            it('Should reauth to main test user', function (done) {
+                let req = sendRequest('post', '/api/auth');
+                req.set('Content-Type', 'application/json')
+                    .send({
+                        login: login,
+                        password: password
+                    }).expect(200)
+                    .end( (err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        sessionId = res.headers['set-cookie'].pop().split(';')[0];
+                        done();
+                    })
+            });
+
+            it('Should get list of all users, GET/api/users', function (done) {
+                let req = sendRequest('get', '/api/users', sessionId);
+                req.expect(200)
+                    .expect('Content-Type', /json/)
+                    .end( (err, res) => {
+                        if (err) {
+                            done(err);
+                        }
+                        expect(res.body).to.be.a('array');
+                        expect(res.body).to.be.a('array');
+                        expect(res.body.pop().login).to.equal(testLogin);
+                        expect(res.body.pop().login).to.equal(login);
+                        done();
+                })
+            });
+
+            it('Should get side test user, GET/api/current_user', function (done) {
+                let req = sendRequest('get', '/api/current_user', sessionId);
+                req.expect(200)
+                    .expect('Content-Type', /json/)
+                    .end( (err, res) => {
+                        if (err) {
+                            return done(err);
+                        }
+                        expect(res.body.login).to.equal(login);
+                        done();
+                    })
+            });
+        })
     });
 });
