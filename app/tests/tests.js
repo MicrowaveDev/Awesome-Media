@@ -283,7 +283,7 @@ describe('Routes', function () {
                 })
             });
 
-            it('Should get side test user, GET/api/current_user', function (done) {
+            it('Should get main test user, GET/api/current_user', function (done) {
                 let req = sendRequest('get', '/api/current_user', sessionId);
                 req.expect(200)
                     .expect('Content-Type', /json/)
