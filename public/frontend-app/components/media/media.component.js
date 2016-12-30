@@ -1,10 +1,7 @@
 import { Component, NgZone } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { VgAPI } from 'videogular2/core';
 
 import { MediaService } from '../../services/media.service';
 import { UserService } from '../../services/user.service';
-import { Ajax } from '../../helpers/ajax';
 import { MediaModel } from '../../models/media.model';
 import { UserModel } from '../../models/user.model';
 
@@ -113,5 +110,8 @@ export class MediaComponent {
             if(!this.sync_success)
                 this.mediaListMessage = 'Something wrong, refresh page and try again.';
         });
+    }
+    showPlaylistMedia(playlist){
+        this._load_media.fire({playlist: playlist});
     }
 }

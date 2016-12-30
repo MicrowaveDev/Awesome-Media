@@ -1,6 +1,6 @@
 <md-sidenav-layout style="height: 100%;">
 	<md-sidenav opened="true" mode="side" align="start" class="padding">
-		<sidenav
+		<left-sidenav
 				[(currentUser)]="currentUser"
 				(onSaveNewUser)="onSaveNewUser($event)"
 				(onLogInUser)="onLogInUser($event)"
@@ -9,7 +9,7 @@
 				(onUploadMedia)="onUploadMedia()"
 				[message]="sideNavMessage"
 				[allowToCreateFirstUser]="users && users.length ? false : true">
-		</sidenav>
+		</left-sidenav>
 	</md-sidenav>
 
 	<audio-player [audio]="currentMedia" (onEnded)="nextMedia()"></audio-player>
@@ -17,5 +17,12 @@
 	<md-progress-bar *ngIf="!loaded" mode="indeterminate"></md-progress-bar>
 
 	<media-list class="padding" [(list)]="mediaList" [(currentMedia)]="currentMedia" [message]="mediaListMessage" (mediaSelect)="mediaSelected($event)" (onLoadList)="mediaListLoaded($event)"></media-list>
+
+	<md-sidenav opened="true" mode="side" align="end" class="padding">
+		<right-sidenav
+				[currentUser]="currentUser"
+				(currentPlaylistChange)="showPlaylistMedia($event)">
+		</right-sidenav>
+	</md-sidenav>
 </md-sidenav-layout>
 
