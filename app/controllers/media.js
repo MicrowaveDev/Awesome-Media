@@ -3,6 +3,7 @@ const _ = require('lodash');
 const multer = require('multer');
 
 const apiHelper = require('../helpers/api');
+const mediaHelper = require('../helpers/media');
 const filesHelper = require('../helpers/files');
 const Media = require("../models/media");
 const User = require("../models/user");
@@ -17,21 +18,12 @@ module.exports = {
             return;
         }
 
-        User.findOne({_id: req.session.user_id}, function(err, user){
-            if(user)
-                Media.find({ _id: { "$in" : user.medias ? user.medias.map((user_media) => user_media.media_id) : [] } }, function(err, docs){
-                    let userSortedMediaIds = _(user.medias).orderBy(['number'], ['desc']).map((user_media) => user_media.media_id.toString()).value();
-
-                    let sortedMedia = _.orderBy(docs, (media) => {
-                        return userSortedMediaIds.indexOf(media._id.toString());
-                    }, ['asc']);
-
-                    apiHelper.APIResponse(res)(err, sortedMedia);
-                });
-            else
-                apiHelper.handleError(res, "Invalid user", "User not found.", 400);
-        });
+        if(res.locals.current_user)
+            mediaHelper.getSortedMedia(res.locals.current_user.medias, apiHelper.APIResponse(res));
+        else
+            apiHelper.handleError(res, "Invalid user", "User not found.", 400);
     },
+
     getMediaFiles: function(req, res) {
         const media_options = req.app.locals.media_options;
         fs.readdir(media_options.absolute_path, function(err, items) {
@@ -84,6 +76,7 @@ module.exports = {
 
         });
     },
+
     postMedia: function(req, res) {
         if (!(req.body.name || req.body.path)) {
             apiHelper.handleError(res, "Invalid user input", "Must provide a first or last name.", 400);
@@ -92,5 +85,6 @@ module.exports = {
 
         let newMedia = new Media(req.body);
         newMedia.save(apiHelper.APIResponse(res));
-    }
+    },
+
 };

@@ -9,7 +9,7 @@ import { MediaService } from './services/media.service';
 import {
     AppComponent,
     MediaComponent,
-    SidenavComponent
+    LeftSidenavComponent
 } from './components';
 
 import {VgCore} from 'videogular2/core';
@@ -37,16 +37,17 @@ import {MediaList} from "./directives/media-list.directive";
 import {LoadMedia} from "./broadcasters/load-media";
 import {Broadcaster} from "./broadcasters/broadcaster";
 import {PlayMedia} from "./broadcasters/play-media";
+import {RightSidenavComponent} from "./components/right_sidenav/right_sidenav.component";
+import {PlaylistService} from "./services/playlist.service";
 
 @NgModule({
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
         MediaComponent,
-        SidenavComponent,
+        LeftSidenavComponent,
+        RightSidenavComponent,
         MediaList,
-        //TodoHeaderComponent,
-        //TodoItemComponent,
         TrimPipe,
         AudioPlayer,
         PreventHref
@@ -75,6 +76,7 @@ import {PlayMedia} from "./broadcasters/play-media";
         Ajax,
         MediaService,
         UserService,
+        PlaylistService,
         SocketService,
         Broadcaster,
         LoadMedia,

@@ -1,0 +1,18 @@
+<h3>Playlists</h3>
+
+<div *ngIf="currentUser">
+	<ul>
+		<li *ngFor="let playlist of playlists"><a href (click)="selectPlayList(playlist)">{{playlist.name}}</a></li>
+	</ul>
+
+	<button *ngIf="!newPlaylist" md-raised-button (click)="newPlaylist = {}">New playlist</button>
+
+	<md-input *ngIf="newPlaylist" placeholder="Playlist name" [(ngModel)]="newPlaylist.name" (keyup.enter)="createPlaylist()"></md-input>
+</div>
+
+<div *ngIf="!currentUser">
+	<h6>For manage playlists - please auth</h6>
+</div>
+
+
+<p>{{message}}</p>

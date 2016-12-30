@@ -21,6 +21,15 @@ const User = mongoose.model('User', {
         number: Number,
         plays_count: Number,
         source: String
+    })],
+
+    playlists: [new mongoose.Schema({
+        name: String,
+        user_id: String,
+        medias: [new mongoose.Schema({
+            media_id: Types.ObjectId,
+            number: Number
+        })]
     })]
 });
 

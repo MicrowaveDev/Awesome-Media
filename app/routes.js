@@ -2,6 +2,9 @@ const vkController = require('./controllers/vk');
 const mediaController = require('./controllers/media');
 const commonController = require('./controllers/common');
 const usersController = require('./controllers/users');
+const playlistsController = require('./controllers/playlists');
+
+const apiHelper = require('./helpers/api');
 
 module.exports = function(app){
 
@@ -16,9 +19,19 @@ module.exports = function(app){
     app.post("/api/auth", usersController.auth);
     app.get("/api/current_user", commonController.currentUser);
 
-    app.get("/api/media", mediaController.getMedia);
+    app.get("/api/playlists", apiHelper.getCurrentUser, playlistsController.getLists);
+    app.post("/api/playlists", apiHelper.getCurrentUser, playlistsController.createList);
+    app.delete("/api/playlists/:id", apiHelper.getCurrentUser, playlistsController.deleteList);
+    app.get("/api/playlists/:id", apiHelper.getCurrentUser, playlistsController.getList);
+    app.put("/api/playlists/:id", apiHelper.getCurrentUser, playlistsController.updateList);
+    app.post("/api/playlists/media/:id", apiHelper.getCurrentUser, playlistsController.addMedia);
+    app.delete("/api/playlists/media/:id", apiHelper.getCurrentUser, playlistsController.removeMedia);
+
+
+    app.get("/api/media", apiHelper.getCurrentUser, mediaController.getMedia);
     app.post("/api/media", mediaController.postMedia);
-    app.post('/api/media-upload', commonController.prepareTestUser, mediaController.uploadMedia);
+    app.post("/api/media-upload", commonController.prepareTestUser, mediaController.uploadMedia);
+
 
     // app.get('/api/test_env', function(req, res){
     //     res.status(200).json(process.env);
