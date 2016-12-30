@@ -1,7 +1,7 @@
-const crypto = require('crypto');
 const fs = require('fs');
 
 const apiHelper = require('../helpers/api');
+const commonHelper = require('../helpers/common');
 const User = require("../models/user");
 
 module.exports = {
@@ -37,9 +37,7 @@ module.exports = {
     },
 
     auth: function(req, res){
-        const md5sum = crypto.createHash('md5');
-        md5sum.update(req.body.password);
-        let password_hash = md5sum.digest('hex');
+        let password_hash = commonHelper.cryptPassword(req.body.pass);
 
         User.findOne({login: req.body.login, password: password_hash }, function(err, user){
             if(user){
