@@ -20,12 +20,12 @@ module.exports = function(app){
     app.get("/api/current_user", commonController.currentUser); //tested
 
     app.get("/api/playlists", apiHelper.getCurrentUser, playlistsController.getLists); //tested
-    app.post("/api/playlist", apiHelper.getCurrentUser, playlistsController.createList); //tested
-    app.delete("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.deleteList); //tested
-    app.get("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.getList); //tested
-    app.put("/api/playlist/:id", apiHelper.getCurrentUser, playlistsController.updateList); //tested
-    app.post("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.addMedia); //tested
-    app.delete("/api/playlist/media/:id", apiHelper.getCurrentUser, playlistsController.removeMedia); //tested
+    app.post("/api/playlists", apiHelper.getCurrentUser, playlistsController.createList); //tested
+    app.delete("/api/playlists/:id", apiHelper.getCurrentUser, playlistsController.deleteList); //tested
+    app.get("/api/playlists/:id", apiHelper.getCurrentUser, playlistsController.getList); //tested
+    app.put("/api/playlists/:id", apiHelper.getCurrentUser, playlistsController.updateList); //tested
+    app.post("/api/playlists/media/:id", apiHelper.getCurrentUser, playlistsController.addMedia); //tested
+    app.delete("/api/playlists/media/:id", apiHelper.getCurrentUser, playlistsController.removeMedia); //tested
 
 
     app.get("/api/media", apiHelper.getCurrentUser, mediaController.getMedia); //tested

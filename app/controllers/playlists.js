@@ -11,13 +11,14 @@ module.exports = {
     },
 
     createList: function (req, res) {
-        if (!(req.body.name && req.body.medias)) {
-            return apiHelper.handleError(res, "Invalid playlist", "Must provide name and medias for playlist", 400);
+        if (!req.body.name) {
+            return apiHelper.handleError(res, "Invalid playlist", "Must provide name for playlist", 400);
         }
         res.locals.current_user.playlists.push({
             name: req.body.name,
             user_id: req.session.user_id,
-            medias: req.body.medias
+            //TODO: need to transform regular media objects array to required schema of playlist model
+            //medias: req.body.medias
         });
         res.locals.current_user.save(function (err, user) {
             if (err) {
@@ -32,7 +33,10 @@ module.exports = {
         if (!playlist) {
             return apiHelper.handleError(res, "Invalid playlist", "Playlist not found.", 400);
         }
-        apiHelper.APIResponse(res)(null, playlist);
+        mediaHelper.getSortedMedia(playlist.medias, (err, result_medias) => {
+            playlist.medias = result_medias;
+            apiHelper.APIResponse(res)(err, playlist);
+        });
     },
 
     deleteList: function (req, res) {
@@ -69,7 +73,7 @@ module.exports = {
         }
         let media = playlist.medias.find( (elem) => {
             return elem.media_id.toString() === req.body.id;
-        })
+        });
         media.remove();
         res.locals.current_user.save(function (err) {
             if (err) {

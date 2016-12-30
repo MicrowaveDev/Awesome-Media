@@ -1,8 +1,8 @@
 <h3>Playlists</h3>
 
 <div *ngIf="currentUser">
-	<ul>
-		<li *ngFor="let playlist of playlists"><a href (click)="selectPlayList(playlist)">{{playlist.name}}</a></li>
+	<ul class="without-bullets">
+		<li *ngFor="let playlist of playlists" [ngClass]="{'bold': currentPlaylist && playlist._id == currentPlaylist._id}"><a href (click)="selectPlayList(playlist)">{{playlist.name}}</a></li>
 	</ul>
 
 	<button *ngIf="!newPlaylist" md-raised-button (click)="newPlaylist = {}">New playlist</button>

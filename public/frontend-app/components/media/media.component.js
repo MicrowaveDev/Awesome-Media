@@ -20,6 +20,7 @@ export class MediaComponent {
     currentUser: UserModel;
 
     sideNavMessage = '';
+    showGoBackToAllMedia = false;
 
     constructor(media_service : MediaService, user_service : UserService,
      socket_service: SocketService, load_media: LoadMedia, play_media: PlayMedia){
@@ -57,11 +58,16 @@ export class MediaComponent {
         }
         this.mediaSelected(this.mediaList[++mediaIndex]);
     }
-    onVkAuth(){
+
+    loadAllMedia(){
         this._load_media.fire();
+        this.showGoBackToAllMedia = false;
+    }
+    onVkAuth(){
+        this.loadAllMedia();
     }
     onUploadMedia(){
-        this._load_media.fire();
+        this.loadAllMedia();
     }
 
     userError(error){
@@ -85,7 +91,6 @@ export class MediaComponent {
             if(response.error){
                 alert(response.message);
             } else {
-                this.listLabel = 'Local audio list:';
                 this.mediaList = [];
                 this.mediaListMessage = response.message;
                 this.loaded = false;
@@ -113,5 +118,6 @@ export class MediaComponent {
     }
     showPlaylistMedia(playlist){
         this._load_media.fire({playlist: playlist});
+        this.showGoBackToAllMedia = true;
     }
 }

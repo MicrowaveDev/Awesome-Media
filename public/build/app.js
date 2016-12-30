@@ -83121,7 +83121,7 @@ var app =
   \**********************************************************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<h3>Playlists</h3>\n\n<div *ngIf=\"currentUser\">\n\t<ul>\n\t\t<li *ngFor=\"let playlist of playlists\"><a href (click)=\"selectPlayList(playlist)\">{{playlist.name}}</a></li>\n\t</ul>\n\n\t<button *ngIf=\"!newPlaylist\" md-raised-button (click)=\"newPlaylist = {}\">New playlist</button>\n\n\t<md-input *ngIf=\"newPlaylist\" placeholder=\"Playlist name\" [(ngModel)]=\"newPlaylist.name\" (keyup.enter)=\"createPlaylist()\"></md-input>\n</div>\n\n<div *ngIf=\"!currentUser\">\n\t<h6>For manage playlists - please auth</h6>\n</div>\n\n\n<p>{{message}}</p>"
+	module.exports = "<h3>Playlists</h3>\n\n<div *ngIf=\"currentUser\">\n\t<ul class=\"without-bullets\">\n\t\t<li *ngFor=\"let playlist of playlists\" [ngClass]=\"{'bold': currentPlaylist && playlist._id == currentPlaylist._id}\"><a href (click)=\"selectPlayList(playlist)\">{{playlist.name}}</a></li>\n\t</ul>\n\n\t<button *ngIf=\"!newPlaylist\" md-raised-button (click)=\"newPlaylist = {}\">New playlist</button>\n\n\t<md-input *ngIf=\"newPlaylist\" placeholder=\"Playlist name\" [(ngModel)]=\"newPlaylist.name\" (keyup.enter)=\"createPlaylist()\"></md-input>\n</div>\n\n<div *ngIf=\"!currentUser\">\n\t<h6>For manage playlists - please auth</h6>\n</div>\n\n\n<p>{{message}}</p>"
 
 /***/ },
 /* 377 */
@@ -83383,6 +83383,7 @@ var app =
 	        this.currentMedia = this.currentMedia;
 	        this.currentUser = this.currentUser;
 	        this.sideNavMessage = '';
+	        this.showGoBackToAllMedia = false;
 	
 	        this._media_service = media_service;
 	        this._user_service = user_service;
@@ -83428,14 +83429,20 @@ var app =
 	            this.mediaSelected(this.mediaList[++mediaIndex]);
 	        }
 	    }, {
+	        key: 'loadAllMedia',
+	        value: function loadAllMedia() {
+	            this._load_media.fire();
+	            this.showGoBackToAllMedia = false;
+	        }
+	    }, {
 	        key: 'onVkAuth',
 	        value: function onVkAuth() {
-	            this._load_media.fire();
+	            this.loadAllMedia();
 	        }
 	    }, {
 	        key: 'onUploadMedia',
 	        value: function onUploadMedia() {
-	            this._load_media.fire();
+	            this.loadAllMedia();
 	        }
 	    }, {
 	        key: 'userError',
@@ -83474,7 +83481,6 @@ var app =
 	                if (response.error) {
 	                    alert(response.message);
 	                } else {
-	                    _this5.listLabel = 'Local audio list:';
 	                    _this5.mediaList = [];
 	                    _this5.mediaListMessage = response.message;
 	                    _this5.loaded = false;
@@ -83503,6 +83509,7 @@ var app =
 	        key: 'showPlaylistMedia',
 	        value: function showPlaylistMedia(playlist) {
 	            this._load_media.fire({ playlist: playlist });
+	            this.showGoBackToAllMedia = true;
 	        }
 	    }]);
 	
@@ -84482,7 +84489,7 @@ var app =
   \******************************************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<md-sidenav-layout style=\"height: 100%;\">\n\t<md-sidenav opened=\"true\" mode=\"side\" align=\"start\" class=\"padding\">\n\t\t<left-sidenav\n\t\t\t\t[(currentUser)]=\"currentUser\"\n\t\t\t\t(onSaveNewUser)=\"onSaveNewUser($event)\"\n\t\t\t\t(onLogInUser)=\"onLogInUser($event)\"\n\t\t\t\t(onVkAuth)=\"onVkAuth()\"\n\t\t\t\t(onSyncAudio)=\"onSyncAudio()\"\n\t\t\t\t(onUploadMedia)=\"onUploadMedia()\"\n\t\t\t\t[message]=\"sideNavMessage\"\n\t\t\t\t[allowToCreateFirstUser]=\"users && users.length ? false : true\">\n\t\t</left-sidenav>\n\t</md-sidenav>\n\n\t<audio-player [audio]=\"currentMedia\" (onEnded)=\"nextMedia()\"></audio-player>\n\n\t<md-progress-bar *ngIf=\"!loaded\" mode=\"indeterminate\"></md-progress-bar>\n\n\t<media-list class=\"padding\" [(list)]=\"mediaList\" [(currentMedia)]=\"currentMedia\" [message]=\"mediaListMessage\" (mediaSelect)=\"mediaSelected($event)\" (onLoadList)=\"mediaListLoaded($event)\"></media-list>\n\n\t<md-sidenav opened=\"true\" mode=\"side\" align=\"end\" class=\"padding\">\n\t\t<right-sidenav\n\t\t\t\t[currentUser]=\"currentUser\"\n\t\t\t\t(currentPlaylistChange)=\"showPlaylistMedia($event)\">\n\t\t</right-sidenav>\n\t</md-sidenav>\n</md-sidenav-layout>\n\n"
+	module.exports = "<md-sidenav-layout style=\"height: 100%;\">\n\t<md-sidenav opened=\"true\" mode=\"side\" align=\"start\" class=\"padding\">\n\t\t<left-sidenav\n\t\t\t\t[(currentUser)]=\"currentUser\"\n\t\t\t\t(onSaveNewUser)=\"onSaveNewUser($event)\"\n\t\t\t\t(onLogInUser)=\"onLogInUser($event)\"\n\t\t\t\t(onVkAuth)=\"onVkAuth()\"\n\t\t\t\t(onSyncAudio)=\"onSyncAudio()\"\n\t\t\t\t(onUploadMedia)=\"onUploadMedia()\"\n\t\t\t\t[message]=\"sideNavMessage\"\n\t\t\t\t[allowToCreateFirstUser]=\"users && users.length ? false : true\">\n\t\t</left-sidenav>\n\t</md-sidenav>\n\n\t<audio-player [audio]=\"currentMedia\" (onEnded)=\"nextMedia()\"></audio-player>\n\n\t<a *ngIf=\"showGoBackToAllMedia\" href (click)=\"loadAllMedia()\">< Go back to all media</a>\n\n\t<md-progress-bar *ngIf=\"!loaded\" mode=\"indeterminate\"></md-progress-bar>\n\n\t<media-list class=\"padding\" [(list)]=\"mediaList\" [(currentMedia)]=\"currentMedia\" [message]=\"mediaListMessage\" (mediaSelect)=\"mediaSelected($event)\" (onLoadList)=\"mediaListLoaded($event)\"></media-list>\n\n\t<md-sidenav opened=\"true\" mode=\"side\" align=\"end\" class=\"padding\">\n\t\t<right-sidenav\n\t\t\t\t[currentUser]=\"currentUser\"\n\t\t\t\t(currentPlaylistChange)=\"showPlaylistMedia($event)\">\n\t\t</right-sidenav>\n\t</md-sidenav>\n</md-sidenav-layout>\n\n"
 
 /***/ },
 /* 392 */
@@ -97110,9 +97117,9 @@ var app =
 			value: function loadPlaylistMedia(playlist, callback) {
 				var _this2 = this;
 	
-				this._playlist_service.show(playlist.id).then(function (playlist) {
+				this._playlist_service.show(playlist._id).then(function (playlist) {
 					_this2.initMedia(playlist.medias);
-					_this2.message = playlist.name + ' - Playlist media:';
+					_this2.listLabel = playlist.name + ' - Playlist media:';
 				}, this.loadError.bind(this));
 			}
 		}, {
@@ -97129,6 +97136,7 @@ var app =
 	
 				this.loaded = true;
 				this.onLoadList.emit(media_list);
+				this.listLabel = 'Local audio list:';
 				//if(callback)
 				//	callback(media_list);
 			}

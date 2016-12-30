@@ -14,6 +14,8 @@
 
 	<audio-player [audio]="currentMedia" (onEnded)="nextMedia()"></audio-player>
 
+	<a *ngIf="showGoBackToAllMedia" href (click)="loadAllMedia()">< Go back to all media</a>
+
 	<md-progress-bar *ngIf="!loaded" mode="indeterminate"></md-progress-bar>
 
 	<media-list class="padding" [(list)]="mediaList" [(currentMedia)]="currentMedia" [message]="mediaListMessage" (mediaSelect)="mediaSelected($event)" (onLoadList)="mediaListLoaded($event)"></media-list>

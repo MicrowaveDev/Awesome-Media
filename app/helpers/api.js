@@ -32,17 +32,16 @@ let apiHelper = {
     },
 
     getCurrentUser: function (req, res, next) {
-        User.findOne({ _id: req.session.user_id }, function (err, user) {
+        User.findOne({ _id: req.session.user_id }, (err, user) => {
             if (err || !user) {
-                this.handleError(res, "Invalid user", "User not found", 400);
-                return;
+                return apiHelper.handleError(res, "Invalid user", "User not found", 400);
             }
 
             res.locals.current_user = user;
             res.locals.err = err;
             next();
-        }.bind(apiHelper));
+        });
     }
-}
+};
 
 module.exports = apiHelper;

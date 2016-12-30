@@ -57,9 +57,9 @@ export class MediaList implements OnInit {
 		this._media_service.query().then(this.initMedia.bind(this), this.loadError.bind(this));
 	}
 	loadPlaylistMedia(playlist, callback){
-		this._playlist_service.show(playlist.id).then((playlist) => {
+		this._playlist_service.show(playlist._id).then((playlist) => {
 			this.initMedia(playlist.medias);
-			this.message = `${playlist.name} - Playlist media:`
+			this.listLabel = `${playlist.name} - Playlist media:`
 		}, this.loadError.bind(this));
 	}
 
@@ -75,6 +75,7 @@ export class MediaList implements OnInit {
 
 		this.loaded = true;
 		this.onLoadList.emit(media_list);
+		this.listLabel = 'Local audio list:';
 		//if(callback)
 		//	callback(media_list);
 	}

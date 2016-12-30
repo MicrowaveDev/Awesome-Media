@@ -19,7 +19,7 @@ let sessionId;
 let userId;
 let port = 3007;
 
-let audioName = 'test_audio.mp3'
+let audioName = 'test_audio.mp3';
 let audioPath = `${__dirname}/medias/${audioName}`;
 let audioId;
 let playlist;
@@ -121,8 +121,8 @@ describe('Routes', function () {
             let testName = "Test_playlist";
             let playlistId;
 
-            it('Should create playlist with test audio, POST/api/playlist', function (done) {
-                let req = sendRequest('post', '/api/playlist/', sessionId);
+            it('Should create playlist with test audio, POST/api/playlists', function (done) {
+                let req = sendRequest('post', '/api/playlists/', sessionId);
                 req.set('Content-Type', 'application/json')
                     .send({
                         name: testName,
@@ -141,8 +141,8 @@ describe('Routes', function () {
                     });
             });
 
-            it('Should return created playlist, GET/api/playlist/:id', function (done) {
-                let req = sendRequest('get', `/api/playlist/${playlistId}`, sessionId);
+            it('Should return created playlist, GET/api/playlists/:id', function (done) {
+                let req = sendRequest('get', `/api/playlists/${playlistId}`, sessionId);
                 req.set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
                     .expect(200)
@@ -171,8 +171,8 @@ describe('Routes', function () {
                     });
             });
 
-            it('Should update playlist, PUT/api/playlist/:id', function (done) {
-                let req = sendRequest('put', `/api/playlist/${playlistId}`, sessionId);
+            it('Should update playlist, PUT/api/playlists/:id', function (done) {
+                let req = sendRequest('put', `/api/playlists/${playlistId}`, sessionId);
                 let updatedPartName = `updated_${testName}`;
                 req.set('Content-Type', 'application/json')
                     .send({
@@ -189,8 +189,8 @@ describe('Routes', function () {
                     })
             });
 
-            it('Should delete test audio from playlist, DELETE/api/playlist/media/:id', function (done) {
-                let req = sendRequest('delete', `/api/playlist/media/${playlistId}`, sessionId);
+            it('Should delete test audio from playlist, DELETE/api/playlists/media/:id', function (done) {
+                let req = sendRequest('delete', `/api/playlists/media/${playlistId}`, sessionId);
                 req.expect(200)
                     .send({
                         id: audioId
@@ -203,8 +203,8 @@ describe('Routes', function () {
                     });
             });
 
-            it('Should add test audio again, POST/api/playlist/media/:id', function (done) {
-                let req = sendRequest('post', `/api/playlist/media/${playlistId}`, sessionId);
+            it('Should add test audio again, POST/api/playlists/media/:id', function (done) {
+                let req = sendRequest('post', `/api/playlists/media/${playlistId}`, sessionId);
                 req.send({
                     media_id: audioId
                 })
@@ -217,8 +217,8 @@ describe('Routes', function () {
                     })
             });
 
-            it('Should remove playlist, DELETE/api/playlist/:id', function (done) {
-                let req = sendRequest('delete', `/api/playlist/${playlistId}`, sessionId);
+            it('Should remove playlist, DELETE/api/playlists/:id', function (done) {
+                let req = sendRequest('delete', `/api/playlists/${playlistId}`, sessionId);
                 req.expect(200)
                     .end( (err) => {
                         if (err) {
