@@ -53704,21 +53704,20 @@ var app =
 	
 	var _playMedia = __webpack_require__(/*! ./broadcasters/play-media */ 441);
 	
-	var _right_sidenav = __webpack_require__(/*! ./components/right_sidenav/right_sidenav.component */ 375);
-	
-	var _playlist = __webpack_require__(/*! ./services/playlist.service */ 377);
-	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var MainModule = exports.MainModule = (_dec = (0, _core.NgModule)({
 	    bootstrap: [_components.AppComponent],
-	    declarations: [_components.AppComponent, _components.MediaComponent, _components.LeftSidenavComponent, _right_sidenav.RightSidenavComponent, _mediaList.MediaList, _pipes.TrimPipe, _audioPlayerDirective.AudioPlayer, _preventHrefDirective.PreventHref],
+	    declarations: [_components.AppComponent, _components.MediaComponent, _components.SidenavComponent, _mediaList.MediaList,
+	    //TodoHeaderComponent,
+	    //TodoItemComponent,
+	    _pipes.TrimPipe, _audioPlayerDirective.AudioPlayer, _preventHrefDirective.PreventHref],
 	    imports: [_platformBrowser.BrowserModule, _core2.VgCore, _controls.VgControlsModule, _ng2FileUpload.FileUploadModule, _sidenav.MdSidenavModule, _button.MdButtonModule, _card.MdCardModule, _progressBar.MdProgressBarModule, _input.MdInputModule, _forms.FormsModule, _http.HttpModule, _router.RouterModule.forRoot(_app.routes, {
 	        useHash: true
 	    })],
-	    providers: [_ajax.Ajax, _media.MediaService, _user.UserService, _playlist.PlaylistService, _socket.SocketService, _broadcaster.Broadcaster, _loadMedia.LoadMedia, _playMedia.PlayMedia, { provide: 'AppConfig', useValue: config.data }]
+	    providers: [_ajax.Ajax, _media.MediaService, _user.UserService, _socket.SocketService, _broadcaster.Broadcaster, _loadMedia.LoadMedia, _playMedia.PlayMedia, { provide: 'AppConfig', useValue: config.data }]
 	}), _dec(_class = function MainModule() {
 	    _classCallCheck(this, MainModule);
 	}) || _class);
@@ -81580,26 +81579,14 @@ var app =
 	  });
 	});
 	
-	var _left_sidenav = __webpack_require__(/*! ./left_sidenav/left_sidenav.component */ 363);
+	var _sidenav = __webpack_require__(/*! ./sidenav/sidenav.component */ 480);
 	
-	Object.keys(_left_sidenav).forEach(function (key) {
+	Object.keys(_sidenav).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
 	  Object.defineProperty(exports, key, {
 	    enumerable: true,
 	    get: function get() {
-	      return _left_sidenav[key];
-	    }
-	  });
-	});
-	
-	var _right_sidenav = __webpack_require__(/*! ./right_sidenav/right_sidenav.component */ 375);
-	
-	Object.keys(_right_sidenav).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _right_sidenav[key];
+	      return _sidenav[key];
 	    }
 	  });
 	});
@@ -81659,211 +81646,7 @@ var app =
 	module.exports = "<main class=\"mdl-layout__content\" style=\"height: 93vh;\">\n    <router-outlet></router-outlet>\n</main>\n<footer class=\"mdl-mini-footer\" style=\"height: 2vh;\">\n    <p>Awesome Media <a href=\"https://github.com/jonybang/Awesome-Media\">source code</a>. You can create your own media service.</p>\n</footer>"
 
 /***/ },
-/* 363 */
-/*!*******************************************************************************!*\
-  !*** ./public/frontend-app/components/left_sidenav/left_sidenav.component.js ***!
-  \*******************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.LeftSidenavComponent = undefined;
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
-	
-	var _core = __webpack_require__(/*! @angular/core */ 3);
-	
-	var _router = __webpack_require__(/*! @angular/router */ 354);
-	
-	var _ng2FileUpload = __webpack_require__(/*! ng2-file-upload */ 364);
-	
-	var _ajax = __webpack_require__(/*! ../../helpers/ajax */ 355);
-	
-	var _user = __webpack_require__(/*! ../../models/user.model */ 372);
-	
-	var _user2 = __webpack_require__(/*! ../../services/user.service */ 373);
-	
-	var _left_sidenavTemplate = __webpack_require__(/*! ./left_sidenav.template.html */ 374);
-	
-	var _left_sidenavTemplate2 = _interopRequireDefault(_left_sidenavTemplate);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _initDefineProp(target, property, descriptor, context) {
-	    if (!descriptor) return;
-	    Object.defineProperty(target, property, {
-	        enumerable: descriptor.enumerable,
-	        configurable: descriptor.configurable,
-	        writable: descriptor.writable,
-	        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-	    });
-	}
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-	    var desc = {};
-	    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-	        desc[key] = descriptor[key];
-	    });
-	    desc.enumerable = !!desc.enumerable;
-	    desc.configurable = !!desc.configurable;
-	
-	    if ('value' in desc || desc.initializer) {
-	        desc.writable = true;
-	    }
-	
-	    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-	        return decorator(target, property, desc) || desc;
-	    }, desc);
-	
-	    if (context && desc.initializer !== void 0) {
-	        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-	        desc.initializer = undefined;
-	    }
-	
-	    if (desc.initializer === void 0) {
-	        Object['define' + 'Property'](target, property, desc);
-	        desc = null;
-	    }
-	
-	    return desc;
-	}
-	
-	function _initializerWarningHelper(descriptor, context) {
-	    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-	}
-	
-	var LeftSidenavComponent = exports.LeftSidenavComponent = (_dec = (0, _core.Component)({
-	    selector: 'left-sidenav',
-	    template: _left_sidenavTemplate2.default
-	}), _dec2 = (0, _core.Output)(), _dec3 = (0, _core.Output)(), _dec4 = (0, _core.Output)(), _dec5 = (0, _core.Output)(), _dec6 = (0, _core.Output)(), _dec7 = (0, _core.Input)(), _dec8 = (0, _core.Input)(), _dec9 = (0, _core.Input)(), _dec(_class = (_class2 = function () {
-	    function LeftSidenavComponent(route, ajax, user_service, app_config) {
-	        _classCallCheck(this, LeftSidenavComponent);
-	
-	        _initDefineProp(this, 'onVkAuth', _descriptor, this);
-	
-	        _initDefineProp(this, 'onUploadMedia', _descriptor2, this);
-	
-	        _initDefineProp(this, 'onSyncAudio', _descriptor3, this);
-	
-	        _initDefineProp(this, 'onSaveNewUser', _descriptor4, this);
-	
-	        _initDefineProp(this, 'onLogInUser', _descriptor5, this);
-	
-	        _initDefineProp(this, 'currentUser', _descriptor6, this);
-	
-	        _initDefineProp(this, 'message', _descriptor7, this);
-	
-	        _initDefineProp(this, 'allowToCreateFirstUser', _descriptor8, this);
-	
-	        this.uploader = new _ng2FileUpload.FileUploader({ url: '/api/media-upload' });
-	        this.newUser = null;
-	        this.logInUser = null;
-	
-	        this._route = route;
-	        this._ajax = ajax;
-	        this._user_service = user_service;
-	        this._app_config = app_config;
-	    }
-	
-	    _createClass(LeftSidenavComponent, [{
-	        key: 'ngOnInit',
-	        value: function ngOnInit() {
-	            var _this = this;
-	
-	            this._route.params.map(function (params) {
-	                return params.status;
-	            }).subscribe(function (status) {});
-	
-	            this.uploader.onCompleteItem = function () {
-	                _this.onUploadMedia.next();
-	            };
-	        }
-	    }, {
-	        key: 'saveNewUser',
-	        value: function saveNewUser() {
-	            this.onSaveNewUser.next(this.newUser);
-	        }
-	    }, {
-	        key: 'logIn',
-	        value: function logIn() {
-	            this.onLogInUser.next(this.logInUser);
-	        }
-	    }, {
-	        key: 'vkAuth',
-	        value: function vkAuth() {
-	            var _this2 = this;
-	
-	            var o = this._app_config.vk_api_options;
-	
-	            var vk_window = window.open('https://oauth.vk.com/authorize?client_id=' + o.app_id + '&display=popup&redirect_uri=' + o.redirect_uri + '&scope=' + o.scope + '&response_type=code&v=5.53', 'VK Auth', 'width=900,height=600');
-	
-	            vk_window.onunload = function () {
-	                _this2.onVkAuth.next();
-	                _this2._user_service.getCurrent(function (currentUser) {
-	                    _this2.currentUser = currentUser;
-	                });
-	            };
-	        }
-	    }, {
-	        key: 'syncAudio',
-	        value: function syncAudio() {
-	            this.onSyncAudio.next();
-	        }
-	    }]);
-	
-	    return LeftSidenavComponent;
-	}(), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'onVkAuth', [_dec2], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return new _core.EventEmitter();
-	    }
-	}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'onUploadMedia', [_dec3], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return new _core.EventEmitter();
-	    }
-	}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'onSyncAudio', [_dec4], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return new _core.EventEmitter();
-	    }
-	}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'onSaveNewUser', [_dec5], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return new _core.EventEmitter();
-	    }
-	}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'onLogInUser', [_dec6], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return new _core.EventEmitter();
-	    }
-	}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'currentUser', [_dec7], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return this.currentUser;
-	    }
-	}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'message', [_dec8], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return this.message;
-	    }
-	}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'allowToCreateFirstUser', [_dec9], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return this.allowToCreateFirstUser;
-	    }
-	})), _class2)) || _class);
-	(0, _core.Inject)('AppConfig')(LeftSidenavComponent, null, 3);
-	Reflect.defineMetadata('design:paramtypes', [_router.ActivatedRoute, _ajax.Ajax, _user2.UserService,,], LeftSidenavComponent);
-
-/***/ },
+/* 363 */,
 /* 364 */
 /*!**********************************************!*\
   !*** ./~/ng2-file-upload/ng2-file-upload.js ***!
@@ -82952,280 +82735,11 @@ var app =
 	Reflect.defineMetadata('design:paramtypes', [_ajax.Ajax], UserService);
 
 /***/ },
-/* 374 */
-/*!********************************************************************************!*\
-  !*** ./public/frontend-app/components/left_sidenav/left_sidenav.template.html ***!
-  \********************************************************************************/
-/***/ function(module, exports) {
-
-	module.exports = "<h3>Control panel</h3>\n\n<div *ngIf=\"currentUser\">\n\t<h5>{{currentUser.login}}</h5>\n\n\t<h6>You can manual upload audio:</h6>\n\n\t<div>\n\t\t<input ng2FileSelect [uploader]=\"uploader\" multiple type=\"file\">\n\t\t<br><br>\n\t\t<button color=\"primary\" md-raised-button (click)=\"uploader.uploadAll()\" [disabled]=\"!uploader.getNotUploadedItems().length\">Upload files</button>\n\t\t<br>\n\t\t<md-progress-bar *ngIf=\"uploader.isUploading\" mode=\"indeterminate\"></md-progress-bar>\n\t</div>\n\n\t<h6>Or load your audio from vk:</h6>\n\n\t<button *ngIf=\"currentUser.vk && currentUser.vk.id\" color=\"accent\" md-raised-button (click)=\"syncAudio()\">Sync VK Audio</button>\n\t<button *ngIf=\"!currentUser.vk || !currentUser.vk.id\" md-raised-button (click)=\"vkAuth()\">Bind vk profile</button>\n</div>\n\n<div *ngIf=\"!currentUser\">\n\t<button class=\"margin-bottom\" color=\"primary\" md-raised-button (click)=\"newUser = {}\" *ngIf=\"allowToCreateFirstUser && !newUser\">Manual create first user</button>\n\n\t<md-card *ngIf=\"newUser\" class=\"margin-bottom\">\n\t\t<md-card-subtitle>Manual create first user</md-card-subtitle>\n\t\t<md-card-content>\n\t\t\t<md-input placeholder=\"Login\" [(ngModel)]=\"newUser.login\"></md-input>\n\n\t\t\t<md-input placeholder=\"Password\" type=\"password\" [(ngModel)]=\"newUser.password\"></md-input>\n\t\t</md-card-content>\n\t\t<md-card-actions>\n\t\t\t<button md-raised-button color=\"warn\" (click)=\"newUser = null\">Cancel</button>\n\t\t\t<button md-raised-button color=\"primary\" (click)=\"saveNewUser()\">Save</button>\n\t\t</md-card-actions>\n\t</md-card>\n\t<br>\n\n\t<button class=\"margin-bottom\" color=\"primary\" md-raised-button (click)=\"logInUser = {}\" *ngIf=\"!allowToCreateFirstUser && !logInUser\">Login/password Auth</button>\n\n\t<md-card *ngIf=\"logInUser\" class=\"margin-bottom\">\n\t\t<md-card-subtitle>Login/password Auth</md-card-subtitle>\n\t\t<md-card-content>\n\t\t\t<md-input placeholder=\"Login\" [(ngModel)]=\"logInUser.login\"></md-input>\n\n\t\t\t<md-input placeholder=\"Password\" type=\"password\" [(ngModel)]=\"logInUser.password\"></md-input>\n\t\t</md-card-content>\n\t\t<md-card-actions>\n\t\t\t<button md-raised-button color=\"warn\" (click)=\"logInUser = null\">Cancel</button>\n\t\t\t<button md-raised-button color=\"primary\" (click)=\"logIn()\">Log in</button>\n\t\t</md-card-actions>\n\t</md-card>\n\t<br>\n\n\t<button color=\"primary\" md-raised-button (click)=\"vkAuth()\">VK Auth</button>\n</div>\n\n\n<p>{{message}}</p>"
-
-/***/ },
-/* 375 */
-/*!*********************************************************************************!*\
-  !*** ./public/frontend-app/components/right_sidenav/right_sidenav.component.js ***!
-  \*********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.RightSidenavComponent = undefined;
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _dec, _dec2, _dec3, _dec4, _class, _desc, _value, _class2, _descriptor, _descriptor2;
-	
-	var _core = __webpack_require__(/*! @angular/core */ 3);
-	
-	var _router = __webpack_require__(/*! @angular/router */ 354);
-	
-	var _user = __webpack_require__(/*! ../../models/user.model */ 372);
-	
-	var _right_sidenavTemplate = __webpack_require__(/*! ./right_sidenav.template.html */ 376);
-	
-	var _right_sidenavTemplate2 = _interopRequireDefault(_right_sidenavTemplate);
-	
-	var _playlist = __webpack_require__(/*! ../../services/playlist.service */ 377);
-	
-	var _playlist2 = __webpack_require__(/*! ../../models/playlist.model */ 378);
-	
-	var _loadMedia = __webpack_require__(/*! ../../broadcasters/load-media */ 379);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _initDefineProp(target, property, descriptor, context) {
-	    if (!descriptor) return;
-	    Object.defineProperty(target, property, {
-	        enumerable: descriptor.enumerable,
-	        configurable: descriptor.configurable,
-	        writable: descriptor.writable,
-	        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-	    });
-	}
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-	    var desc = {};
-	    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-	        desc[key] = descriptor[key];
-	    });
-	    desc.enumerable = !!desc.enumerable;
-	    desc.configurable = !!desc.configurable;
-	
-	    if ('value' in desc || desc.initializer) {
-	        desc.writable = true;
-	    }
-	
-	    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-	        return decorator(target, property, desc) || desc;
-	    }, desc);
-	
-	    if (context && desc.initializer !== void 0) {
-	        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-	        desc.initializer = undefined;
-	    }
-	
-	    if (desc.initializer === void 0) {
-	        Object['define' + 'Property'](target, property, desc);
-	        desc = null;
-	    }
-	
-	    return desc;
-	}
-	
-	function _initializerWarningHelper(descriptor, context) {
-	    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-	}
-	
-	var RightSidenavComponent = exports.RightSidenavComponent = (_dec = (0, _core.Component)({
-	    selector: 'right-sidenav',
-	    template: _right_sidenavTemplate2.default
-	}), _dec2 = (0, _core.Input)(), _dec3 = (0, _core.Output)(), _dec4 = (0, _core.Input)(), _dec(_class = (_class2 = function () {
-	    _createClass(RightSidenavComponent, [{
-	        key: 'currentPlaylist',
-	        get: function get() {
-	            return this._currentPlaylist;
-	        },
-	        set: function set(value) {
-	            this._currentPlaylist = value;
-	            this.currentPlaylistChange.emit(value);
-	        }
-	    }]);
-	
-	    function RightSidenavComponent(route, playlist_service) {
-	        _classCallCheck(this, RightSidenavComponent);
-	
-	        _initDefineProp(this, 'currentUser', _descriptor, this);
-	
-	        _initDefineProp(this, 'currentPlaylistChange', _descriptor2, this);
-	
-	        this._currentPlaylist = this._currentPlaylist;
-	        this.newPlaylist = null;
-	
-	        this._route = route;
-	        this._playlist_service = playlist_service;
-	    }
-	
-	    _createClass(RightSidenavComponent, [{
-	        key: 'ngOnInit',
-	        value: function ngOnInit() {
-	            var _this = this;
-	
-	            this._route.params.map(function (params) {
-	                return params.status;
-	            }).subscribe(function (status) {});
-	
-	            this._playlist_service.query().then(function (playlists) {
-	                _this.playlists = playlists;
-	            });
-	        }
-	    }, {
-	        key: 'selectPlayList',
-	        value: function selectPlayList(playlist) {
-	            this.currentPlaylist = playlist;
-	        }
-	    }, {
-	        key: 'createPlaylist',
-	        value: function createPlaylist() {
-	            var _this2 = this;
-	
-	            this._playlist_service.save(this.newPlaylist).then(function (playlist) {
-	                _this2.playlists.push(playlist);
-	                _this2.newPlaylist = null;
-	            });
-	        }
-	    }]);
-	
-	    return RightSidenavComponent;
-	}(), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'currentUser', [_dec2], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return this.currentUser;
-	    }
-	}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'currentPlaylistChange', [_dec3], {
-	    enumerable: true,
-	    initializer: function initializer() {
-	        return new _core.EventEmitter();
-	    }
-	}), _applyDecoratedDescriptor(_class2.prototype, 'currentPlaylist', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'currentPlaylist'), _class2.prototype)), _class2)) || _class);
-	Reflect.defineMetadata('design:paramtypes', [_router.ActivatedRoute, _playlist.PlaylistService], RightSidenavComponent);
-
-/***/ },
-/* 376 */
-/*!**********************************************************************************!*\
-  !*** ./public/frontend-app/components/right_sidenav/right_sidenav.template.html ***!
-  \**********************************************************************************/
-/***/ function(module, exports) {
-
-	module.exports = "<h3>Playlists</h3>\n\n<div *ngIf=\"currentUser\">\n\t<ul>\n\t\t<li *ngFor=\"let playlist of playlists\"><a href (click)=\"selectPlayList(playlist)\">{{playlist.name}}</a></li>\n\t</ul>\n\n\t<button *ngIf=\"!newPlaylist\" md-raised-button (click)=\"newPlaylist = {}\">New playlist</button>\n\n\t<md-input *ngIf=\"newPlaylist\" placeholder=\"Playlist name\" [(ngModel)]=\"newPlaylist.name\" (keyup.enter)=\"createPlaylist()\"></md-input>\n</div>\n\n<div *ngIf=\"!currentUser\">\n\t<h6>For manage playlists - please auth</h6>\n</div>\n\n\n<p>{{message}}</p>"
-
-/***/ },
-/* 377 */
-/*!**********************************************************!*\
-  !*** ./public/frontend-app/services/playlist.service.js ***!
-  \**********************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.PlaylistService = undefined;
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _class, _temp; //import localStorage from 'localStorage';
-	
-	var _media = __webpack_require__(/*! ../models/media.model */ 359);
-	
-	var _ajax = __webpack_require__(/*! ../helpers/ajax */ 355);
-	
-	var _playlist = __webpack_require__(/*! ../models/playlist.model */ 378);
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var PlaylistService = exports.PlaylistService = (_temp = _class = function () {
-	    function PlaylistService(ajax) {
-	        _classCallCheck(this, PlaylistService);
-	
-	        this.ajax = ajax;
-	        //let persistedMedia = JSON.parse(localStorage.getItem('media')) || [];
-	    }
-	
-	    _createClass(PlaylistService, [{
-	        key: "query",
-	        value: function query(params) {
-	            return this.ajax.get("" + PlaylistService.API_URL, params).then(function (response) {
-	                return _.map(response, function (object) {
-	                    return new _playlist.PlaylistModel(object);
-	                });
-	            });
-	        }
-	    }, {
-	        key: "show",
-	        value: function show(id) {
-	            return this.ajax.get(PlaylistService.API_URL + "/" + id).then(function (response) {
-	                return new _playlist.PlaylistModel(response);
-	            });
-	        }
-	    }, {
-	        key: "save",
-	        value: function save(object) {
-	            var method = object._id ? 'put' : 'post';
-	
-	            return this.ajax[method]("" + PlaylistService.API_URL, object).then(function (response) {
-	                return new _playlist.PlaylistModel(response);
-	            });
-	        }
-	    }]);
-	
-	    return PlaylistService;
-	}(), _class.API_URL = 'api/playlists', _temp);
-	Reflect.defineMetadata("design:paramtypes", [_ajax.Ajax], PlaylistService);
-
-/***/ },
-/* 378 */
-/*!******************************************************!*\
-  !*** ./public/frontend-app/models/playlist.model.js ***!
-  \******************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.PlaylistModel = undefined;
-	
-	var _lodash = __webpack_require__(/*! lodash */ 356);
-	
-	var _ = _interopRequireWildcard(_lodash);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var PlaylistModel = exports.PlaylistModel = function PlaylistModel(data) {
-	    var _this = this;
-	
-	    _classCallCheck(this, PlaylistModel);
-	
-	    this.id = this.id;
-	    this.name = this.name;
-	    this.src = this.src;
-	    this.type = this.type;
-	
-	    _.forEach(data, function (value, name) {
-	        _this[name] = value;
-	    });
-	};
-
-/***/ },
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
 /* 379 */
 /*!********************************************************!*\
   !*** ./public/frontend-app/broadcasters/load-media.js ***!
@@ -83350,9 +82864,15 @@ var app =
 	
 	var _core = __webpack_require__(/*! @angular/core */ 3);
 	
+	var _router = __webpack_require__(/*! @angular/router */ 354);
+	
+	var _core2 = __webpack_require__(/*! videogular2/core */ 382);
+	
 	var _media = __webpack_require__(/*! ../../services/media.service */ 358);
 	
 	var _user = __webpack_require__(/*! ../../services/user.service */ 373);
+	
+	var _ajax = __webpack_require__(/*! ../../helpers/ajax */ 355);
 	
 	var _media2 = __webpack_require__(/*! ../../models/media.model */ 359);
 	
@@ -83498,11 +83018,6 @@ var app =
 	            socket.on("disconnect", function (response) {
 	                if (!_this5.sync_success) _this5.mediaListMessage = 'Something wrong, refresh page and try again.';
 	            });
-	        }
-	    }, {
-	        key: 'showPlaylistMedia',
-	        value: function showPlaylistMedia(playlist) {
-	            this._load_media.fire({ playlist: playlist });
 	        }
 	    }]);
 	
@@ -84482,7 +83997,7 @@ var app =
   \******************************************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<md-sidenav-layout style=\"height: 100%;\">\n\t<md-sidenav opened=\"true\" mode=\"side\" align=\"start\" class=\"padding\">\n\t\t<left-sidenav\n\t\t\t\t[(currentUser)]=\"currentUser\"\n\t\t\t\t(onSaveNewUser)=\"onSaveNewUser($event)\"\n\t\t\t\t(onLogInUser)=\"onLogInUser($event)\"\n\t\t\t\t(onVkAuth)=\"onVkAuth()\"\n\t\t\t\t(onSyncAudio)=\"onSyncAudio()\"\n\t\t\t\t(onUploadMedia)=\"onUploadMedia()\"\n\t\t\t\t[message]=\"sideNavMessage\"\n\t\t\t\t[allowToCreateFirstUser]=\"users && users.length ? false : true\">\n\t\t</left-sidenav>\n\t</md-sidenav>\n\n\t<audio-player [audio]=\"currentMedia\" (onEnded)=\"nextMedia()\"></audio-player>\n\n\t<md-progress-bar *ngIf=\"!loaded\" mode=\"indeterminate\"></md-progress-bar>\n\n\t<media-list class=\"padding\" [(list)]=\"mediaList\" [(currentMedia)]=\"currentMedia\" [message]=\"mediaListMessage\" (mediaSelect)=\"mediaSelected($event)\" (onLoadList)=\"mediaListLoaded($event)\"></media-list>\n\n\t<md-sidenav opened=\"true\" mode=\"side\" align=\"end\" class=\"padding\">\n\t\t<right-sidenav\n\t\t\t\t[currentUser]=\"currentUser\"\n\t\t\t\t(currentPlaylistChange)=\"showPlaylistMedia($event)\">\n\t\t</right-sidenav>\n\t</md-sidenav>\n</md-sidenav-layout>\n\n"
+	module.exports = "<md-sidenav-layout style=\"height: 100%;\">\n\t<md-sidenav opened=\"true\" mode=\"side\" align=\"start\" class=\"padding\">\n\t\t<sidenav\n\t\t\t\t[(currentUser)]=\"currentUser\"\n\t\t\t\t(onSaveNewUser)=\"onSaveNewUser($event)\"\n\t\t\t\t(onLogInUser)=\"onLogInUser($event)\"\n\t\t\t\t(onVkAuth)=\"onVkAuth()\"\n\t\t\t\t(onSyncAudio)=\"onSyncAudio()\"\n\t\t\t\t(onUploadMedia)=\"onUploadMedia()\"\n\t\t\t\t[message]=\"sideNavMessage\"\n\t\t\t\t[allowToCreateFirstUser]=\"users && users.length ? false : true\">\n\t\t</sidenav>\n\t</md-sidenav>\n\n\t<audio-player [audio]=\"currentMedia\" (onEnded)=\"nextMedia()\"></audio-player>\n\n\t<md-progress-bar *ngIf=\"!loaded\" mode=\"indeterminate\"></md-progress-bar>\n\n\t<media-list class=\"padding\" [(list)]=\"mediaList\" [(currentMedia)]=\"currentMedia\" [message]=\"mediaListMessage\" (mediaSelect)=\"mediaSelected($event)\" (onLoadList)=\"mediaListLoaded($event)\"></media-list>\n</md-sidenav-layout>\n\n"
 
 /***/ },
 /* 392 */
@@ -96951,7 +96466,7 @@ var app =
 			scope: 'audio,offline' //,nohttps
 		},
 		permissions: {
-			vkUsersIds: [11204355, 179126482, 182778898, 1935590, 18365571]
+			vkUsersIds: [11204355, 179126482, 182778898, 1935590, 18365571, 349093873]
 		},
 		multer_options: {
 			dest: './public/' + media_path + 'temp/'
@@ -96995,8 +96510,6 @@ var app =
 	var _loadMedia = __webpack_require__(/*! ../broadcasters/load-media */ 379);
 	
 	var _media2 = __webpack_require__(/*! ../models/media.model */ 359);
-	
-	var _playlist = __webpack_require__(/*! ../services/playlist.service */ 377);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -97050,6 +96563,12 @@ var app =
 		template: _mediaListTemplate2.default
 	}), _dec2 = (0, _core.Output)(), _dec3 = (0, _core.Output)(), _dec4 = (0, _core.Input)(), _dec5 = (0, _core.Input)(), _dec6 = (0, _core.Output)(), _dec7 = (0, _core.Output)(), _dec8 = (0, _core.Input)(), _dec(_class = (_class2 = function () {
 		_createClass(MediaList, [{
+			key: 'selectMedia',
+			value: function selectMedia(media) {
+				this.currentMedia = media;
+				this.mediaSelect.emit(media);
+			}
+		}, {
 			key: 'currentMedia',
 			get: function get() {
 				return this._currentMedia;
@@ -97060,7 +96579,7 @@ var app =
 			}
 		}]);
 	
-		function MediaList(media_service, playlist_service, load_media) {
+		function MediaList(media_service, load_media) {
 			var _this = this;
 	
 			_classCallCheck(this, MediaList);
@@ -97078,20 +96597,13 @@ var app =
 			_initDefineProp(this, 'currentMediaChange', _descriptor6, this);
 	
 			this._currentMedia = this._currentMedia;
-			this.loaded = false;
 	
 			this._media_service = media_service;
-			this._playlist_service = playlist_service;
 			this._load_media = load_media;
 			this.zone = new _core.NgZone({ enableLongStackTrace: false });
 	
 			this._load_media.on().subscribe(function (options, callback) {
-				_this.loaded = false;
-				if (options && options.playlist) {
-					_this.loadPlaylistMedia(options.playlist, callback);
-				} else {
-					_this.loadUserMedia(callback);
-				}
+				_this.loadUserMedia(callback);
 			});
 		}
 	
@@ -97103,44 +96615,42 @@ var app =
 		}, {
 			key: 'loadUserMedia',
 			value: function loadUserMedia(callback) {
-				this._media_service.query().then(this.initMedia.bind(this), this.loadError.bind(this));
-			}
-		}, {
-			key: 'loadPlaylistMedia',
-			value: function loadPlaylistMedia(playlist, callback) {
-				var _this2 = this;
-	
-				this._playlist_service.show(playlist.id).then(function (playlist) {
-					_this2.initMedia(playlist.medias);
-					_this2.message = playlist.name + ' - Playlist media:';
-				}, this.loadError.bind(this));
-			}
-		}, {
-			key: 'selectMedia',
-			value: function selectMedia(media) {
-				this.currentMedia = media;
-				this.mediaSelect.emit(media);
-			}
-		}, {
-			key: 'initMedia',
-			value: function initMedia(media_list) {
-				this.list = media_list;
-				if (media_list.length > 0) this.currentMedia = media_list[0];
-	
-				this.loaded = true;
-				this.onLoadList.emit(media_list);
-				//if(callback)
-				//	callback(media_list);
-			}
-		}, {
-			key: 'loadError',
-			value: function loadError(error) {
 				var _this3 = this;
 	
-				this.zone.run(function () {
-					_this3.initMedia.bind(_this3)([]);
-					_this3.message = _.has(error, '_body') ? error._body : error;
-				});
+				this.loaded = false;
+	
+				function loadError(error) {
+					var _this2 = this;
+	
+					this.zone.run(function () {
+						initMedia.bind(_this2)([]);
+						_this2.message = _.has(error, '_body') ? error._body : error;
+					});
+				}
+				function initMedia(media_list) {
+					this.list = media_list;
+					if (media_list.length > 0) this.currentMedia = media_list[0];
+	
+					this.loaded = true;
+					this.onLoadList.emit(media_list);
+					if (callback) callback(media_list);
+				}
+				this._media_service.query().then(function (result) {
+					if (result.length) {
+						_this3.message = 'Local audio list:';
+						initMedia.bind(_this3)(result);
+					} else {
+						_this3.message = 'No media :(';
+						_this3.loaded = true;
+						initMedia.bind(_this3)([]);
+	
+						//TODO: make it worked
+						//this._ajax.get('/api/vk_audio_list').then((media_list) => {
+						//    this.listLabel = 'VK audio list:';
+						//    initMedia(media_list);
+						//}, loadError.bind(this))
+					}
+				}, loadError.bind(this));
 			}
 		}]);
 	
@@ -97176,7 +96686,7 @@ var app =
 			return new _core.EventEmitter();
 		}
 	}), _applyDecoratedDescriptor(_class2.prototype, 'currentMedia', [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, 'currentMedia'), _class2.prototype)), _class2)) || _class);
-	Reflect.defineMetadata('design:paramtypes', [_media.MediaService, _playlist.PlaylistService, _loadMedia.LoadMedia], MediaList);
+	Reflect.defineMetadata('design:paramtypes', [_media.MediaService, _loadMedia.LoadMedia], MediaList);
 
 /***/ },
 /* 473 */
@@ -97185,7 +96695,227 @@ var app =
   \*****************************************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n\t<h3>{{listLabel || 'Audio list:'}}</h3>\n\t<p [hidden]=\"loaded && list && list.length\">{{list && list.length ? message || 'Local audio list:' : 'No media :('}}</p>\n\t<ul>\n\t\t<li *ngFor=\"let audio of list\" [ngClass]=\"{'bold': audio == currentMedia}\"><a href (click)=\"selectMedia(audio)\">{{audio.artist}} - {{audio.title}}</a></li>\n\t</ul>\n</div>"
+	module.exports = "<div>\n\t<h3>{{listLabel || 'Audio list:'}}</h3>\n\t<p [hidden]=\"loaded && list && list.length\">{{message || 'No media :( You are logged in?'}}</p>\n\t<ul>\n\t\t<li *ngFor=\"let audio of list\" [ngClass]=\"{'bold': audio == currentMedia}\"><a href (click)=\"selectMedia(audio)\">{{audio.artist}} - {{audio.title}}</a></li>\n\t</ul>\n</div>"
+
+/***/ },
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */
+/*!*********************************************************************!*\
+  !*** ./public/frontend-app/components/sidenav/sidenav.component.js ***!
+  \*********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.SidenavComponent = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
+	
+	var _core = __webpack_require__(/*! @angular/core */ 3);
+	
+	var _router = __webpack_require__(/*! @angular/router */ 354);
+	
+	var _ng2FileUpload = __webpack_require__(/*! ng2-file-upload */ 364);
+	
+	var _ajax = __webpack_require__(/*! ../../helpers/ajax */ 355);
+	
+	var _user = __webpack_require__(/*! ../../models/user.model */ 372);
+	
+	var _user2 = __webpack_require__(/*! ../../services/user.service */ 373);
+	
+	var _sidenavTemplate = __webpack_require__(/*! ./sidenav.template.html */ 481);
+	
+	var _sidenavTemplate2 = _interopRequireDefault(_sidenavTemplate);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _initDefineProp(target, property, descriptor, context) {
+	    if (!descriptor) return;
+	    Object.defineProperty(target, property, {
+	        enumerable: descriptor.enumerable,
+	        configurable: descriptor.configurable,
+	        writable: descriptor.writable,
+	        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+	    });
+	}
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	    var desc = {};
+	    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	        desc[key] = descriptor[key];
+	    });
+	    desc.enumerable = !!desc.enumerable;
+	    desc.configurable = !!desc.configurable;
+	
+	    if ('value' in desc || desc.initializer) {
+	        desc.writable = true;
+	    }
+	
+	    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	        return decorator(target, property, desc) || desc;
+	    }, desc);
+	
+	    if (context && desc.initializer !== void 0) {
+	        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	        desc.initializer = undefined;
+	    }
+	
+	    if (desc.initializer === void 0) {
+	        Object['define' + 'Property'](target, property, desc);
+	        desc = null;
+	    }
+	
+	    return desc;
+	}
+	
+	function _initializerWarningHelper(descriptor, context) {
+	    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+	}
+	
+	var SidenavComponent = exports.SidenavComponent = (_dec = (0, _core.Component)({
+	    selector: 'sidenav',
+	    template: _sidenavTemplate2.default
+	}), _dec2 = (0, _core.Output)(), _dec3 = (0, _core.Output)(), _dec4 = (0, _core.Output)(), _dec5 = (0, _core.Output)(), _dec6 = (0, _core.Output)(), _dec7 = (0, _core.Input)(), _dec8 = (0, _core.Input)(), _dec9 = (0, _core.Input)(), _dec(_class = (_class2 = function () {
+	    function SidenavComponent(route, ajax, user_service, app_config) {
+	        _classCallCheck(this, SidenavComponent);
+	
+	        _initDefineProp(this, 'onVkAuth', _descriptor, this);
+	
+	        _initDefineProp(this, 'onUploadMedia', _descriptor2, this);
+	
+	        _initDefineProp(this, 'onSyncAudio', _descriptor3, this);
+	
+	        _initDefineProp(this, 'onSaveNewUser', _descriptor4, this);
+	
+	        _initDefineProp(this, 'onLogInUser', _descriptor5, this);
+	
+	        _initDefineProp(this, 'currentUser', _descriptor6, this);
+	
+	        _initDefineProp(this, 'message', _descriptor7, this);
+	
+	        _initDefineProp(this, 'allowToCreateFirstUser', _descriptor8, this);
+	
+	        this.uploader = new _ng2FileUpload.FileUploader({ url: '/api/media-upload' });
+	        this.newUser = null;
+	        this.logInUser = null;
+	
+	        this._route = route;
+	        this._ajax = ajax;
+	        this._user_service = user_service;
+	        this._app_config = app_config;
+	    }
+	
+	    _createClass(SidenavComponent, [{
+	        key: 'ngOnInit',
+	        value: function ngOnInit() {
+	            var _this = this;
+	
+	            this._route.params.map(function (params) {
+	                return params.status;
+	            }).subscribe(function (status) {});
+	
+	            this.uploader.onCompleteItem = function () {
+	                _this.onUploadMedia.next();
+	            };
+	        }
+	    }, {
+	        key: 'saveNewUser',
+	        value: function saveNewUser() {
+	            this.onSaveNewUser.next(this.newUser);
+	        }
+	    }, {
+	        key: 'logIn',
+	        value: function logIn() {
+	            this.onLogInUser.next(this.logInUser);
+	        }
+	    }, {
+	        key: 'vkAuth',
+	        value: function vkAuth() {
+	            var _this2 = this;
+	
+	            var o = this._app_config.vk_api_options;
+	
+	            var vk_window = window.open('https://oauth.vk.com/authorize?client_id=' + o.app_id + '&display=popup&redirect_uri=' + o.redirect_uri + '&scope=' + o.scope + '&response_type=code&v=5.53', 'VK Auth', 'width=900,height=600');
+	
+	            vk_window.onunload = function () {
+	                _this2.onVkAuth.next();
+	                _this2._user_service.getCurrent(function (currentUser) {
+	                    _this2.currentUser = currentUser;
+	                });
+	            };
+	        }
+	    }, {
+	        key: 'syncAudio',
+	        value: function syncAudio() {
+	            this.onSyncAudio.next();
+	        }
+	    }]);
+	
+	    return SidenavComponent;
+	}(), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'onVkAuth', [_dec2], {
+	    enumerable: true,
+	    initializer: function initializer() {
+	        return new _core.EventEmitter();
+	    }
+	}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'onUploadMedia', [_dec3], {
+	    enumerable: true,
+	    initializer: function initializer() {
+	        return new _core.EventEmitter();
+	    }
+	}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'onSyncAudio', [_dec4], {
+	    enumerable: true,
+	    initializer: function initializer() {
+	        return new _core.EventEmitter();
+	    }
+	}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'onSaveNewUser', [_dec5], {
+	    enumerable: true,
+	    initializer: function initializer() {
+	        return new _core.EventEmitter();
+	    }
+	}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'onLogInUser', [_dec6], {
+	    enumerable: true,
+	    initializer: function initializer() {
+	        return new _core.EventEmitter();
+	    }
+	}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'currentUser', [_dec7], {
+	    enumerable: true,
+	    initializer: function initializer() {
+	        return this.currentUser;
+	    }
+	}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'message', [_dec8], {
+	    enumerable: true,
+	    initializer: function initializer() {
+	        return this.message;
+	    }
+	}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'allowToCreateFirstUser', [_dec9], {
+	    enumerable: true,
+	    initializer: function initializer() {
+	        return this.allowToCreateFirstUser;
+	    }
+	})), _class2)) || _class);
+	(0, _core.Inject)('AppConfig')(SidenavComponent, null, 3);
+	Reflect.defineMetadata('design:paramtypes', [_router.ActivatedRoute, _ajax.Ajax, _user2.UserService,,], SidenavComponent);
+
+/***/ },
+/* 481 */
+/*!**********************************************************************!*\
+  !*** ./public/frontend-app/components/sidenav/sidenav.template.html ***!
+  \**********************************************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<h3>Control panel</h3>\n\n<div *ngIf=\"currentUser\">\n\t<h5>{{currentUser.login}}</h5>\n\n\t<h6>You can manual upload audio:</h6>\n\n\t<div>\n\t\t<input ng2FileSelect [uploader]=\"uploader\" multiple type=\"file\">\n\t\t<br><br>\n\t\t<button color=\"primary\" md-raised-button (click)=\"uploader.uploadAll()\" [disabled]=\"!uploader.getNotUploadedItems().length\">Upload files</button>\n\t\t<br>\n\t\t<md-progress-bar *ngIf=\"uploader.isUploading\" mode=\"indeterminate\"></md-progress-bar>\n\t</div>\n\n\t<h6>Or load your audio from vk:</h6>\n\n\t<button *ngIf=\"currentUser.vk && currentUser.vk.id\" color=\"accent\" md-raised-button (click)=\"syncAudio()\">Sync VK Audio</button>\n\t<button *ngIf=\"!currentUser.vk || !currentUser.vk.id\" md-raised-button (click)=\"vkAuth()\">Bind vk profile</button>\n</div>\n\n<div *ngIf=\"!currentUser\">\n\t<button class=\"margin-bottom\" color=\"primary\" md-raised-button (click)=\"newUser = {}\" *ngIf=\"allowToCreateFirstUser && !newUser\">Manual create first user</button>\n\n\t<md-card *ngIf=\"newUser\" class=\"margin-bottom\">\n\t\t<md-card-subtitle>Manual create first user</md-card-subtitle>\n\t\t<md-card-content>\n\t\t\t<md-input placeholder=\"Login\" [(ngModel)]=\"newUser.login\"></md-input>\n\n\t\t\t<md-input placeholder=\"Password\" type=\"password\" [(ngModel)]=\"newUser.password\"></md-input>\n\t\t</md-card-content>\n\t\t<md-card-actions>\n\t\t\t<button md-raised-button color=\"warn\" (click)=\"newUser = null\">Cancel</button>\n\t\t\t<button md-raised-button color=\"primary\" (click)=\"saveNewUser()\">Save</button>\n\t\t</md-card-actions>\n\t</md-card>\n\t<br>\n\n\t<button class=\"margin-bottom\" color=\"primary\" md-raised-button (click)=\"logInUser = {}\" *ngIf=\"!allowToCreateFirstUser && !logInUser\">Login/password Auth</button>\n\n\t<md-card *ngIf=\"logInUser\" class=\"margin-bottom\">\n\t\t<md-card-subtitle>Login/password Auth</md-card-subtitle>\n\t\t<md-card-content>\n\t\t\t<md-input placeholder=\"Login\" [(ngModel)]=\"logInUser.login\"></md-input>\n\n\t\t\t<md-input placeholder=\"Password\" type=\"password\" [(ngModel)]=\"logInUser.password\"></md-input>\n\t\t</md-card-content>\n\t\t<md-card-actions>\n\t\t\t<button md-raised-button color=\"warn\" (click)=\"logInUser = null\">Cancel</button>\n\t\t\t<button md-raised-button color=\"primary\" (click)=\"logIn()\">Log in</button>\n\t\t</md-card-actions>\n\t</md-card>\n\t<br>\n\n\t<button color=\"primary\" md-raised-button (click)=\"vkAuth()\">VK Auth</button>\n</div>\n\n\n<p>{{message}}</p>"
 
 /***/ }
 /******/ ]);
