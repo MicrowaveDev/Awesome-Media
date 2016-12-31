@@ -5,6 +5,7 @@ import {MediaService} from "../services/media.service";
 import {LoadMedia} from "../broadcasters/load-media";
 import {MediaModel} from "../models/media.model";
 import {PlaylistService} from "../services/playlist.service";
+import {MdIconRegistry} from "@angular2-material/icon/icon-registry";
 
 @Component({
 	selector: 'media-list',
@@ -33,7 +34,8 @@ export class MediaList implements OnInit {
 
 	constructor (media_service : MediaService,
 				 playlist_service : PlaylistService,
-				 load_media: LoadMedia) {
+				 load_media: LoadMedia,
+				 md_icon_registry: MdIconRegistry) {
 		this._media_service = media_service;
 		this._playlist_service = playlist_service;
 		this._load_media = load_media;

@@ -2,6 +2,9 @@
 	<h3>{{listLabel || 'Audio list:'}}</h3>
 	<p [hidden]="loaded && list && list.length">{{list && list.length ? message || 'Local audio list:' : 'No media :('}}</p>
 	<ul>
-		<li *ngFor="let audio of list" [ngClass]="{'bold': audio == currentMedia}"><a href (click)="selectMedia(audio)">{{audio.artist}} - {{audio.title}}</a></li>
+		<li *ngFor="let audio of list" [ngClass]="{'bold': audio == currentMedia}">
+			<a href (click)="selectMedia(audio)">{{audio.artist}} - {{audio.title}}</a>
+			<md-icon>mode_edit</md-icon>
+		</li>
 	</ul>
 </div>

@@ -37,7 +37,7 @@ module.exports = {
     },
 
     auth: function(req, res){
-        let password_hash = commonHelper.cryptPassword(req.body.pass);
+        let password_hash = commonHelper.cryptPassword(req.body.password);
 
         User.findOne({login: req.body.login, password: password_hash }, function(err, user){
             if(user){

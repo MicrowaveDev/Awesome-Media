@@ -20,13 +20,13 @@ var config = {
         library: '[name]'
     },
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['.js']
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
                     presets: ['es2015', 'angular2']
@@ -34,12 +34,32 @@ var config = {
             },
             {
                 test: /\.html$/,
-                loader: 'raw'
+                loader: 'raw-loader'
             },
             {
                 test: /\.scss$/,
                 exclude: /node_modules/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!resolve-url!sass-loader?sourceMap')
+                loader: ExtractTextPlugin.extract({
+                    fallbackLoader: 'style-loader',
+                    loader: [
+                        {
+                            loader: 'css-loader'
+                        },
+                        {
+                            loader: 'resolve-url-loader',
+                            options: {
+                                keepQuery: false
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true,
+                                includePaths: [path.resolve(__dirname, "./public/scss")]
+                            }
+                        }
+                    ],
+                })
             },
             {
                 test: /\.woff2?$|\.ttf$|\.eot$|\.svg$|\.png|\.jpe?g|\.gif$/,
@@ -48,18 +68,13 @@ var config = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('styles.css', {
-            allChunks: true
-        }),
+        new ExtractTextPlugin({filename: 'styles.css', allChunks: true}),
         //http://projects.theforeman.org/issues/16599
         new webpack.optimize.UglifyJsPlugin({
           compress: { warnings: false }
         }),
         new UnminifiedWebpackPlugin()
     ],
-    sassLoader: {
-        includePaths: [path.resolve(__dirname, "./public/scss")]
-    },
 
     devtool: 'source-map'
 };

@@ -21,6 +21,7 @@ import { MdButtonModule } from '@angular2-material/button';
 import { MdCardModule } from '@angular2-material/card';
 import { MdProgressBarModule } from '@angular2-material/progress-bar';
 import { MdInputModule } from '@angular2-material/input';
+import { MdIconModule } from '@angular2-material/icon';
 
 import { PreventHref } from './directives/prevent-href.directive.js';
 import { AudioPlayer } from './directives/audio-player.directive.js';
@@ -39,6 +40,7 @@ import {Broadcaster} from "./broadcasters/broadcaster";
 import {PlayMedia} from "./broadcasters/play-media";
 import {RightSidenavComponent} from "./components/right_sidenav/right_sidenav.component";
 import {PlaylistService} from "./services/playlist.service";
+import {MdIconRegistry} from "@angular2-material/icon/icon-registry";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -65,6 +67,7 @@ import {PlaylistService} from "./services/playlist.service";
         MdCardModule,
         MdProgressBarModule,
         MdInputModule,
+        MdIconModule,
 
         FormsModule,
         HttpModule,
@@ -78,9 +81,11 @@ import {PlaylistService} from "./services/playlist.service";
         UserService,
         PlaylistService,
         SocketService,
+        MdIconRegistry,
         Broadcaster,
         LoadMedia,
         PlayMedia,
+
         { provide: 'AppConfig', useValue: config.data }
     ],
 })
