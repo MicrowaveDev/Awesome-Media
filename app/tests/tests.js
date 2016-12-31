@@ -22,6 +22,7 @@ let port = 3007;
 let audioName = 'test_audio.mp3';
 let audioPath = `${__dirname}/medias/${audioName}`;
 let audioId;
+let audio;
 let playlist;
 let login = 'Test';
 let password = 'Password';
@@ -109,6 +110,7 @@ describe('Routes', function () {
                         expect(res.body[0].artist).to.equal(audioName);
                         expect(res.body[0].type).to.equal('audio/mp3');
                         audioId = res.body[0]._id;
+                        audio = res.body[0];
                         done();
                     });
             });
@@ -126,9 +128,7 @@ describe('Routes', function () {
                 req.set('Content-Type', 'application/json')
                     .send({
                         name: testName,
-                        medias: [{
-                            media_id: audioId
-                        }]
+                        medias: [audio]
                     })
                     .expect(200)
                     .end( (err, res) => {
@@ -151,7 +151,7 @@ describe('Routes', function () {
                             return done(err);
                         }
                         expect(res.body.name).to.equal(testName);
-                        expect(JSON.stringify(res.body.medias) === JSON.stringify(playlist.medias)).to.equal(true);
+                        expect(res.body.medias[0]._id === playlist.medias[0].media_id).to.equal(true);
                         done();
                     });
             });

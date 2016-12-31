@@ -14,11 +14,16 @@ module.exports = {
         if (!req.body.name) {
             return apiHelper.handleError(res, "Invalid playlist", "Must provide name for playlist", 400);
         }
+        let medias = _.map(req.body.medias, (elem, index) => {
+            return {
+                media_id: elem._id,
+                number: index
+            };
+        });
         res.locals.current_user.playlists.push({
             name: req.body.name,
             user_id: req.session.user_id,
-            //TODO: need to transform regular media objects array to required schema of playlist model
-            //medias: req.body.medias
+            medias: medias
         });
         res.locals.current_user.save(function (err, user) {
             if (err) {
