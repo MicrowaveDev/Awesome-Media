@@ -1,5 +1,6 @@
 const fs = require('fs');
 
+
 const apiHelper = require('../helpers/api');
 const commonHelper = require('../helpers/common');
 const User = require("../models/user");
@@ -24,11 +25,7 @@ module.exports = {
         function createUser(){
             let user = new User();
             user.login = req.body.login;
-
-            const md5sum = crypto.createHash('md5');
-            md5sum.update(req.body.password);
-            user.password = md5sum.digest('hex');
-
+            user.password = commonHelper.cryptPassword(req.body.password);
             user.save(function(err, user){
                 req.session.user_id = user.id;
                 apiHelper.APIResponse(res)(err, user);
