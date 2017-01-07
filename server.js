@@ -8,6 +8,16 @@ const methodOverride = require('method-override');
 const socketIo = require('socket.io');
 const mongoStore = require('connect-mongo')(expressSession);
 const env = require('node-env-file');
+const https = require('https');
+const http = require('http');
+const fs = require('fs');
+
+const privateKey = fs.readFileSync('./sslcert/key.pem').toString();
+const certificate = fs.readFileSync('./sslcert/cert.pem').toString();
+const credentials = {
+  key: privateKey,
+  cert: certificate
+};
 
 const application_root = __dirname;
 env(application_root + '/.env');
@@ -57,6 +67,9 @@ db.once('open', function() {
   app_config.setLocals(app);
   app_routes(app);
   app_sockets(io, app);
+
+  http.createServer(app).listen(8080);
+  https.createServer(credentials, app).listen(4443);
 });
 
 process.on('uncaughtException', function (err) {
